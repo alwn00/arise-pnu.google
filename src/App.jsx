@@ -759,7 +759,7 @@ export default function App() {
                   { name: 'Gemini', desc: 'AI 채팅·분석·코딩', logo: L+'gemini-lg.png', href: 'https://gemini.google.com' },
                   { name: 'NotebookLM', desc: '논문·자료 AI 분석', logo: L+'notebooklm.png', href: 'https://notebooklm.google.com' },
                   { name: 'Google AI Studio', desc: 'Gemini API 실험', logo: L+'gemini.png', href: 'https://aistudio.google.com' },
-                  { name: 'Gmail', desc: 'AI 기반 이메일', logo: L+'gmail.png', href: 'https://mail.google.com' },
+                  { name: 'Gemini Omni(FLOW)', desc: '최신 Google 서비스 만나보기', logo: L+'google_flow.png', href: 'https://labs.google/fx/tools/flow?gad_source=1&gad_campaignid=23877477981&gbraid=0AAAABDRA0IWA6nj_8Df3woyD3he1K1Vk4&gclid=Cj0KCQjwrZTRBhDSARIsAHidYffBvEDP6Dv7ObV-KKR8a4MmWvqFvZyzRZPafqYjiJmoOLPV4ak1clQaArnTEALw_wcB#models' },
                 ].map((t) => (
                   <a key={t.name} href={t.href} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors">
                     <div className="w-9 h-9 rounded-lg bg-gray-50 flex items-center justify-center shrink-0 overflow-hidden">
