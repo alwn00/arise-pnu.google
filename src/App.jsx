@@ -5,7 +5,14 @@ import {
   Globe, FlaskConical, ExternalLink, Building2, ChevronDown,
   Newspaper, Quote, Handshake, AlertCircle, CheckCircle2,
   FileText, XCircle, ArrowDown,
+  MailOpen, FileSpreadsheet, Presentation, Film, BookMarked,
+  Lightbulb, HelpCircle, Brush, Video, Music, Type, Palette, Boxes,
+  Bot, Navigation, Chrome, Code2, Terminal,
+  Wrench, Flame, Search, Camera, Map, ScanLine, Languages, Headphones,
 } from 'lucide-react';
+
+/* ── Logo helper ── */
+const L = import.meta.env.BASE_URL + 'logos/';
 
 /* ── Constants ── */
 
@@ -635,133 +642,111 @@ export default function App() {
             <p className="mt-3 text-gray-500">부산대 계정으로 로그인하면 Google AI 생태계 전체를 이용할 수 있습니다.</p>
           </div>
 
-          {/* Ecosystem Map */}
-          <div className="max-w-6xl mx-auto">
-            <div className="relative bg-white rounded-3xl border border-gray-200 shadow-sm p-6 sm:p-10 lg:p-12 overflow-hidden">
-              {/* 배경 격자 */}
-              <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, #0B1F4A 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+          {/* Ecosystem Map — Google G + 제품 아이콘 ON 링 */}
+          <div className="max-w-5xl mx-auto">
+            <div className="relative bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
+              {/* ── Desktop ── */}
+              <div className="hidden lg:block relative" style={{ height: 800 }}>
 
-              <div className="relative">
-                {/* ── Row 1: Workspace AI + Research & Learning ── */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-                  <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-5">
-                    <p className="text-[11px] font-bold text-g-blue tracking-widest uppercase mb-3 border-b border-gray-200 pb-2">Workspace AI</p>
-                    <div className="flex flex-wrap gap-2">
-                      {['Gmail', 'Google Docs', 'Google Sheets', 'Google Slides', 'Google Vids'].map((t) => (
-                        <span key={t} className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-lg text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
-                          <span className="w-1.5 h-1.5 rounded-full bg-g-blue"></span>{t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-5">
-                    <p className="text-[11px] font-bold text-g-red tracking-widest uppercase mb-3 border-b border-gray-200 pb-2">Research & Learning Tools</p>
-                    <div className="flex flex-wrap gap-2">
-                      {['NotebookLM', 'Disco', 'Illuminate', 'Learn Your Way'].map((t) => (
-                        <span key={t} className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-lg text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
-                          <span className="w-1.5 h-1.5 rounded-full bg-g-red"></span>{t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                {/* ── 중앙 Google G (CSS) ── */}
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: 300, height: 300, zIndex: 1 }}>
+                  {/* 색상 링 (gap 포함) */}
+                  <div className="absolute inset-0 rounded-full" style={{
+                    background: `conic-gradient(from 0deg,
+                      #EA4335 0deg, #EA4335 8deg,
+                      transparent 14deg, transparent 76deg,
+                      #4285F4 82deg, #4285F4 142deg,
+                      #FBBC04 150deg, #FBBC04 205deg,
+                      #34A853 213deg, #34A853 292deg,
+                      #4285F4 300deg, #4285F4 335deg,
+                      #EA4335 343deg, #EA4335 360deg)`,
+                    boxShadow: '0 15px 50px rgba(0,0,0,0.08)',
+                  }} />
+                  {/* 흰 중앙 */}
+                  <div className="absolute rounded-full bg-white" style={{ inset: 55 }} />
+                  {/* 파란 바 (G 가로획) */}
+                  <div className="absolute" style={{ top: '50%', left: '50%', right: 0, height: 55, transform: 'translateY(-50%)', backgroundColor: '#4285F4', borderRadius: '0 4px 4px 0' }} />
                 </div>
 
-                {/* ── Row 2: Creative Tools + [GEMINI CENTER] + Agents ── */}
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 mb-4 items-center">
-                  {/* Left: Creative Tools */}
-                  <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-5">
-                    <p className="text-[11px] font-bold text-[#FBBC04] tracking-widest uppercase mb-3 border-b border-gray-200 pb-2">Creative Tools</p>
-                    <div className="flex flex-wrap gap-2">
-                      {['Nano Banana', 'Veo 3', 'Flow', 'Whisk', 'Pomelli', 'Mixboard', 'MusicFX', 'TextFX'].map((t) => (
-                        <span key={t} className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-lg text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#FBBC04]"></span>{t}
-                        </span>
-                      ))}
+                {/* ── 제품 아이콘 (링 위에 배치) ── */}
+                {[
+                  { name: 'Gemini Gems', desc: '목표와 선호에 맞춘\n맞춤형 AI 어시스턴트', logo: L+'gemini-lg.png', color: '#4285F4', x: '47%', y: 225, align: 'center' },
+                  { name: 'NotebookLM', desc: '개인 문서를 정리·분석하는\nAI 연구 어시스턴트', logo: L+'notebooklm.png', color: '#0B57D0', x: '61%', y: 322, align: 'left' },
+                  { name: 'Google Pomelli', desc: '브랜드 맞춤 소셜 미디어\n캠페인을 만드는 AI 마케팅 툴', fallback: 'P', color: '#34A853', x: '62%', y: 410, align: 'left' },
+                  { name: 'Google Stitch', desc: '텍스트 프롬프트를\n레이아웃으로 변환하는 AI UI 툴', fallback: 'S', color: '#1A73E8', x: '57%', y: 480, align: 'left' },
+                  { name: 'Google AI Studio', desc: 'Google 생성형 모델로\n앱을 프로토타이핑하는 Web IDE', logo: L+'gemini.png', color: '#FBBC04', x: '50%', y: 520, align: 'left' },
+                  { name: 'Google Opal', desc: '간단한 AI 마이크로앱을\n만들고 공유하는 노코드 도구', fallback: 'O', color: '#9334E6', x: '25%', y: 508, align: 'right' },
+                  { name: 'Google Whisk', desc: 'Labs에서 만든\nAI 이미지 리믹싱·생성 도구', fallback: 'W', color: '#34A853', x: '18%', y: 459, align: 'right' },
+                  { name: 'Google Imagen 3', desc: '타이포·디테일에 강한\n초현실 텍스트-이미지 AI', fallback: 'I', color: '#4285F4', x: '15%', y: 385, align: 'right' },
+                  { name: 'Nano Banana', desc: 'Google DeepMind의\nAI 이미지 생성·편집 모델', fallback: 'N', color: '#FBBC04', x: '17%', y: 311, align: 'right' },
+                  { name: 'Google Lumiere', desc: '텍스트에서 사실적이고\n일관된 영상을 생성하는 AI 모델', fallback: 'L', color: '#EA4335', x: '22%', y: 253, align: 'right' },
+                ].map((item) => (
+                  <div key={item.name} className="absolute flex items-start gap-3" style={{
+                    left: item.x, top: item.y, zIndex: 5,
+                    transform: item.align === 'center' ? 'translateX(-50%)' : 'none',
+                    maxWidth: 220,
+                    flexDirection: item.align === 'right' ? 'row-reverse' : 'row',
+                    textAlign: item.align === 'right' ? 'right' : 'left',
+                  }}>
+                    <div className="w-14 h-14 rounded-full bg-white shadow-lg border-2 border-white flex items-center justify-center shrink-0 overflow-hidden" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }}>
+                      {item.logo
+                        ? <img src={item.logo} alt={item.name} className="w-9 h-9 object-contain" />
+                        : <span className="text-xl font-black" style={{ color: item.color }}>{item.fallback}</span>
+                      }
+                    </div>
+                    <div className="pt-1">
+                      <p className="text-[13px] font-extrabold leading-tight" style={{ color: item.color }}>{item.name}</p>
+                      <p className="text-[10px] text-gray-500 mt-1 leading-relaxed whitespace-pre-line">{item.desc}</p>
                     </div>
                   </div>
+                ))}
+              </div>
 
-                  {/* Center: Gemini Core */}
-                  <div className="hidden lg:flex flex-col items-center">
-                    <div className="w-px h-6 bg-gradient-to-b from-gray-300 to-gray-200"></div>
-                    <div className="relative bg-white rounded-2xl border-2 border-navy/20 shadow-xl px-8 py-7 text-center min-w-[200px]">
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center">
-                        <span className="text-[#4285F4] font-extrabold text-sm">G</span>
-                      </div>
-                      <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-1 bg-gradient-to-r from-gray-300 to-transparent rounded-full"></div>
-                      <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-1 bg-gradient-to-l from-gray-300 to-transparent rounded-full"></div>
-                      <div className="flex justify-center gap-0.5 text-2xl mb-1">
-                        <span className="text-[#4285F4] font-extrabold">G</span>
-                        <span className="text-[#EA4335] font-extrabold">e</span>
-                        <span className="text-[#FBBC04] font-extrabold">m</span>
-                        <span className="text-[#4285F4] font-extrabold">i</span>
-                        <span className="text-[#34A853] font-extrabold">n</span>
-                        <span className="text-[#EA4335] font-extrabold">i</span>
-                      </div>
-                      <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">(Core Foundation)</p>
-                      <div className="flex flex-col gap-1 mt-3">
-                        {['Flash', 'Thinking', 'Pro'].map((m) => (
-                          <span key={m} className="px-3 py-1 bg-navy-50 rounded text-[10px] font-mono text-navy font-semibold">Gemini 3 {m}</span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="w-px h-6 bg-gradient-to-b from-gray-200 to-gray-300"></div>
-                  </div>
-
-                  {/* Mobile: Gemini Center */}
-                  <div className="lg:hidden flex justify-center my-2">
-                    <div className="bg-white rounded-2xl border-2 border-navy/20 shadow-xl px-8 py-6 text-center">
-                      <div className="flex justify-center gap-0.5 text-2xl mb-1">
-                        <span className="text-[#4285F4] font-extrabold">G</span>
-                        <span className="text-[#EA4335] font-extrabold">e</span>
-                        <span className="text-[#FBBC04] font-extrabold">m</span>
-                        <span className="text-[#4285F4] font-extrabold">i</span>
-                        <span className="text-[#34A853] font-extrabold">n</span>
-                        <span className="text-[#EA4335] font-extrabold">i</span>
-                      </div>
-                      <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">(Core Foundation)</p>
-                      <div className="flex justify-center gap-2 mt-3">
-                        {['Flash', 'Thinking', 'Pro'].map((m) => (
-                          <span key={m} className="px-2 py-1 bg-navy-50 rounded text-[10px] font-mono text-navy font-semibold">Gemini 3 {m}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right: Agents & Automation */}
-                  <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-5">
-                    <p className="text-[11px] font-bold text-g-green tracking-widest uppercase mb-3 border-b border-gray-200 pb-2">Agents & Automation</p>
-                    <div className="flex flex-wrap gap-2">
-                      {['Gemini Agent', 'Project Mariner', 'Chrome Auto Browser', 'CC', 'Opal', 'Google Apps Script'].map((t) => (
-                        <span key={t} className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-lg text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
-                          <span className="w-1.5 h-1.5 rounded-full bg-g-green"></span>{t}
-                        </span>
-                      ))}
-                    </div>
+              {/* ── Mobile ── */}
+              <div className="lg:hidden p-5">
+                <div className="flex justify-center mb-8">
+                  <div className="relative" style={{ width: 100, height: 100 }}>
+                    <div className="absolute inset-0 rounded-full" style={{
+                      background: `conic-gradient(from 0deg,
+                        #EA4335 0deg, #EA4335 8deg,
+                        transparent 14deg, transparent 76deg,
+                        #4285F4 82deg, #4285F4 142deg,
+                        #FBBC04 150deg, #FBBC04 205deg,
+                        #34A853 213deg, #34A853 292deg,
+                        #4285F4 300deg, #4285F4 335deg,
+                        #EA4335 343deg, #EA4335 360deg)`,
+                      boxShadow: '0 8px 25px rgba(0,0,0,0.08)',
+                    }} />
+                    <div className="absolute rounded-full bg-white" style={{ inset: 20 }} />
+                    <div className="absolute" style={{ top: '50%', left: '50%', right: 0, height: 20, transform: 'translateY(-50%)', backgroundColor: '#4285F4', borderRadius: '0 2px 2px 0' }} />
                   </div>
                 </div>
-
-                {/* ── Row 3: Prototyping & Dev + Everyday Products ── */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-5">
-                    <p className="text-[11px] font-bold text-navy/50 tracking-widest uppercase mb-3 border-b border-gray-200 pb-2">Prototyping & Developer Tools</p>
-                    <div className="flex flex-wrap gap-2">
-                      {['Stitch', 'Google AI Studio', 'Antigravity', 'Firebase Studio'].map((t) => (
-                        <span key={t} className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-lg text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
-                          <span className="w-1.5 h-1.5 rounded-full bg-navy/30"></span>{t}
-                        </span>
-                      ))}
+                <div className="space-y-3">
+                  {[
+                    { name: 'Gemini Gems', desc: '맞춤형 AI 어시스턴트', logo: L+'gemini-lg.png', color: '#4285F4' },
+                    { name: 'NotebookLM', desc: 'AI 연구 어시스턴트', logo: L+'notebooklm.png', color: '#0B57D0' },
+                    { name: 'Google Lumiere', desc: 'AI 영상 생성 모델', fallback: 'L', color: '#EA4335' },
+                    { name: 'Nano Banana', desc: 'AI 이미지 생성·편집', fallback: 'N', color: '#FBBC04' },
+                    { name: 'Google Imagen 3', desc: '텍스트→이미지 AI', fallback: 'I', color: '#4285F4' },
+                    { name: 'Google Pomelli', desc: 'AI 마케팅 도구', fallback: 'P', color: '#34A853' },
+                    { name: 'Google Stitch', desc: 'AI UI 디자인 툴', fallback: 'S', color: '#1A73E8' },
+                    { name: 'Google Opal', desc: 'AI 노코드 빌더', fallback: 'O', color: '#9334E6' },
+                    { name: 'Google AI Studio', desc: '생성형 모델 IDE', logo: L+'gemini.png', color: '#FBBC04' },
+                    { name: 'Google Whisk', desc: 'AI 이미지 리믹싱', fallback: 'W', color: '#34A853' },
+                  ].map((item) => (
+                    <div key={item.name} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50/70">
+                      <div className="w-11 h-11 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
+                        {item.logo
+                          ? <img src={item.logo} alt={item.name} className="w-7 h-7 object-contain" />
+                          : <span className="text-lg font-black" style={{ color: item.color }}>{item.fallback}</span>
+                        }
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold" style={{ color: item.color }}>{item.name}</p>
+                        <p className="text-[11px] text-gray-500 leading-snug">{item.desc}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-5">
-                    <p className="text-[11px] font-bold text-gray-400 tracking-widest uppercase mb-3 border-b border-gray-200 pb-2">Everyday Google Products with AI</p>
-                    <div className="flex flex-wrap gap-2">
-                      {['Google Search', 'Google Photos', 'Google Maps', 'Google Lens', 'Google Translate', 'Daily Listen'].map((t) => (
-                        <span key={t} className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-lg text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
-                          <span className="w-1.5 h-1.5 rounded-full bg-gray-300"></span>{t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -771,14 +756,17 @@ export default function App() {
               <p className="text-xs font-bold text-navy/40 tracking-widest uppercase mb-4 text-center">주요 서비스 바로가기</p>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {[
-                  { name: 'Gemini', desc: 'AI 채팅·분석·코딩', color: 'from-[#4285F4] to-[#6C63FF]', href: 'https://gemini.google.com' },
-                  { name: 'NotebookLM', desc: '논문·자료 AI 분석', color: 'from-[#EA4335] to-[#FF6D5A]', href: 'https://notebooklm.google.com' },
-                  { name: 'Google AI Studio', desc: 'Gemini API 실험', color: 'from-[#FBBC04] to-[#FF9800]', href: 'https://aistudio.google.com' },
-                  { name: 'Flow (Gemini Omni)', desc: '멀티모달 크리에이티브', color: 'from-[#34A853] to-[#00C853]', href: '#' },
+                  { name: 'Gemini', desc: 'AI 채팅·분석·코딩', logo: L+'gemini-lg.png', href: 'https://gemini.google.com' },
+                  { name: 'NotebookLM', desc: '논문·자료 AI 분석', logo: L+'notebooklm.png', href: 'https://notebooklm.google.com' },
+                  { name: 'Google AI Studio', desc: 'Gemini API 실험', logo: L+'gemini.png', href: 'https://aistudio.google.com' },
+                  { name: 'Gmail', desc: 'AI 기반 이메일', logo: L+'gmail.png', href: 'https://mail.google.com' },
                 ].map((t) => (
                   <a key={t.name} href={t.href} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors">
-                    <div>
-                      <p className={`text-sm font-extrabold bg-gradient-to-r ${t.color} bg-clip-text text-transparent`}>{t.name}</p>
+                    <div className="w-9 h-9 rounded-lg bg-gray-50 flex items-center justify-center shrink-0 overflow-hidden">
+                      <img src={t.logo} alt={t.name} className="w-6 h-6 object-contain" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-extrabold text-navy truncate">{t.name}</p>
                       <p className="text-[10px] text-gray-400 mt-0.5">{t.desc}</p>
                     </div>
                     <ExternalLink className="w-3.5 h-3.5 text-gray-300 group-hover:text-navy ml-auto shrink-0 transition-colors" />
