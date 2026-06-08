@@ -635,82 +635,133 @@ export default function App() {
             <p className="mt-3 text-gray-500">부산대 계정으로 로그인하면 Google AI 생태계 전체를 이용할 수 있습니다.</p>
           </div>
 
-          {/* Center: Gemini Core */}
-          <div className="max-w-5xl mx-auto">
-            <div className="flex justify-center mb-8">
-              <div className="bg-white rounded-2xl border-2 border-gray-200 shadow-lg px-8 py-6 text-center">
-                <div className="text-4xl mb-2">
-                  <span className="text-[#4285F4] font-bold">G</span>
-                </div>
-                <p className="text-xl font-extrabold text-navy">GEMINI</p>
-                <p className="text-xs text-gray-400 mt-1">(Core Foundation)</p>
-                <div className="flex justify-center gap-3 mt-3">
-                  {['Gemini 3 Flash', 'Gemini 3 Thinking', 'Gemini 3 Pro'].map((m) => (
-                    <span key={m} className="px-2 py-1 bg-gray-50 rounded text-[10px] font-mono text-gray-500 border border-gray-100">{m}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
+          {/* Ecosystem Map */}
+          <div className="max-w-6xl mx-auto">
+            <div className="relative bg-white rounded-3xl border border-gray-200 shadow-sm p-6 sm:p-10 lg:p-12 overflow-hidden">
+              {/* 배경 격자 */}
+              <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, #0B1F4A 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
 
-            {/* Ecosystem Grid */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {/* Workspace AI */}
-              <div className="bg-white rounded-xl border border-gray-200 p-5">
-                <p className="text-[10px] font-bold text-g-blue tracking-widest uppercase mb-3">Workspace AI</p>
-                <div className="flex flex-wrap gap-2">
-                  {['Gmail', 'Google Docs', 'Google Sheets', 'Google Slides', 'Google Vids'].map((t) => (
-                    <span key={t} className="px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 border border-gray-100">{t}</span>
-                  ))}
+              <div className="relative">
+                {/* ── Row 1: Workspace AI + Research & Learning ── */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+                  <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-5">
+                    <p className="text-[11px] font-bold text-g-blue tracking-widest uppercase mb-3 border-b border-gray-200 pb-2">Workspace AI</p>
+                    <div className="flex flex-wrap gap-2">
+                      {['Gmail', 'Google Docs', 'Google Sheets', 'Google Slides', 'Google Vids'].map((t) => (
+                        <span key={t} className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-lg text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
+                          <span className="w-1.5 h-1.5 rounded-full bg-g-blue"></span>{t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-5">
+                    <p className="text-[11px] font-bold text-g-red tracking-widest uppercase mb-3 border-b border-gray-200 pb-2">Research & Learning Tools</p>
+                    <div className="flex flex-wrap gap-2">
+                      {['NotebookLM', 'Disco', 'Illuminate', 'Learn Your Way'].map((t) => (
+                        <span key={t} className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-lg text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
+                          <span className="w-1.5 h-1.5 rounded-full bg-g-red"></span>{t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              {/* Research & Learning */}
-              <div className="bg-white rounded-xl border border-gray-200 p-5">
-                <p className="text-[10px] font-bold text-g-red tracking-widest uppercase mb-3">Research & Learning Tools</p>
-                <div className="flex flex-wrap gap-2">
-                  {['NotebookLM', 'Disco', 'Illuminate', 'Learn Your Way'].map((t) => (
-                    <span key={t} className="px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 border border-gray-100">{t}</span>
-                  ))}
+                {/* ── Row 2: Creative Tools + [GEMINI CENTER] + Agents ── */}
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 mb-4 items-center">
+                  {/* Left: Creative Tools */}
+                  <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-5">
+                    <p className="text-[11px] font-bold text-[#FBBC04] tracking-widest uppercase mb-3 border-b border-gray-200 pb-2">Creative Tools</p>
+                    <div className="flex flex-wrap gap-2">
+                      {['Nano Banana', 'Veo 3', 'Flow', 'Whisk', 'Pomelli', 'Mixboard', 'MusicFX', 'TextFX'].map((t) => (
+                        <span key={t} className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-lg text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#FBBC04]"></span>{t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Center: Gemini Core */}
+                  <div className="hidden lg:flex flex-col items-center">
+                    <div className="w-px h-6 bg-gradient-to-b from-gray-300 to-gray-200"></div>
+                    <div className="relative bg-white rounded-2xl border-2 border-navy/20 shadow-xl px-8 py-7 text-center min-w-[200px]">
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center">
+                        <span className="text-[#4285F4] font-extrabold text-sm">G</span>
+                      </div>
+                      <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-1 bg-gradient-to-r from-gray-300 to-transparent rounded-full"></div>
+                      <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-1 bg-gradient-to-l from-gray-300 to-transparent rounded-full"></div>
+                      <div className="flex justify-center gap-0.5 text-2xl mb-1">
+                        <span className="text-[#4285F4] font-extrabold">G</span>
+                        <span className="text-[#EA4335] font-extrabold">e</span>
+                        <span className="text-[#FBBC04] font-extrabold">m</span>
+                        <span className="text-[#4285F4] font-extrabold">i</span>
+                        <span className="text-[#34A853] font-extrabold">n</span>
+                        <span className="text-[#EA4335] font-extrabold">i</span>
+                      </div>
+                      <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">(Core Foundation)</p>
+                      <div className="flex flex-col gap-1 mt-3">
+                        {['Flash', 'Thinking', 'Pro'].map((m) => (
+                          <span key={m} className="px-3 py-1 bg-navy-50 rounded text-[10px] font-mono text-navy font-semibold">Gemini 3 {m}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="w-px h-6 bg-gradient-to-b from-gray-200 to-gray-300"></div>
+                  </div>
+
+                  {/* Mobile: Gemini Center */}
+                  <div className="lg:hidden flex justify-center my-2">
+                    <div className="bg-white rounded-2xl border-2 border-navy/20 shadow-xl px-8 py-6 text-center">
+                      <div className="flex justify-center gap-0.5 text-2xl mb-1">
+                        <span className="text-[#4285F4] font-extrabold">G</span>
+                        <span className="text-[#EA4335] font-extrabold">e</span>
+                        <span className="text-[#FBBC04] font-extrabold">m</span>
+                        <span className="text-[#4285F4] font-extrabold">i</span>
+                        <span className="text-[#34A853] font-extrabold">n</span>
+                        <span className="text-[#EA4335] font-extrabold">i</span>
+                      </div>
+                      <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">(Core Foundation)</p>
+                      <div className="flex justify-center gap-2 mt-3">
+                        {['Flash', 'Thinking', 'Pro'].map((m) => (
+                          <span key={m} className="px-2 py-1 bg-navy-50 rounded text-[10px] font-mono text-navy font-semibold">Gemini 3 {m}</span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right: Agents & Automation */}
+                  <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-5">
+                    <p className="text-[11px] font-bold text-g-green tracking-widest uppercase mb-3 border-b border-gray-200 pb-2">Agents & Automation</p>
+                    <div className="flex flex-wrap gap-2">
+                      {['Gemini Agent', 'Project Mariner', 'Chrome Auto Browser', 'CC', 'Opal', 'Google Apps Script'].map((t) => (
+                        <span key={t} className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-lg text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
+                          <span className="w-1.5 h-1.5 rounded-full bg-g-green"></span>{t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              {/* Creative Tools */}
-              <div className="bg-white rounded-xl border border-gray-200 p-5">
-                <p className="text-[10px] font-bold text-g-yellow tracking-widest uppercase mb-3">Creative Tools</p>
-                <div className="flex flex-wrap gap-2">
-                  {['Veo 3', 'Flow', 'Whisk', 'TextFX', 'MusicFX'].map((t) => (
-                    <span key={t} className="px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 border border-gray-100">{t}</span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Agents & Automation */}
-              <div className="bg-white rounded-xl border border-gray-200 p-5">
-                <p className="text-[10px] font-bold text-g-green tracking-widest uppercase mb-3">Agents & Automation</p>
-                <div className="flex flex-wrap gap-2">
-                  {['Gemini Agent', 'Project Mariner', 'Google Apps Script'].map((t) => (
-                    <span key={t} className="px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 border border-gray-100">{t}</span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Prototyping & Dev */}
-              <div className="bg-white rounded-xl border border-gray-200 p-5">
-                <p className="text-[10px] font-bold text-navy/40 tracking-widest uppercase mb-3">Prototyping & Developer</p>
-                <div className="flex flex-wrap gap-2">
-                  {['Stitch', 'Google AI Studio', 'Firebase Studio'].map((t) => (
-                    <span key={t} className="px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 border border-gray-100">{t}</span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Everyday Products */}
-              <div className="bg-white rounded-xl border border-gray-200 p-5">
-                <p className="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-3">Everyday Google Products</p>
-                <div className="flex flex-wrap gap-2">
-                  {['Google Search', 'Google Photos', 'Google Maps', 'Google Lens', 'Google Translate'].map((t) => (
-                    <span key={t} className="px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 border border-gray-100">{t}</span>
-                  ))}
+                {/* ── Row 3: Prototyping & Dev + Everyday Products ── */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-5">
+                    <p className="text-[11px] font-bold text-navy/50 tracking-widest uppercase mb-3 border-b border-gray-200 pb-2">Prototyping & Developer Tools</p>
+                    <div className="flex flex-wrap gap-2">
+                      {['Stitch', 'Google AI Studio', 'Antigravity', 'Firebase Studio'].map((t) => (
+                        <span key={t} className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-lg text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
+                          <span className="w-1.5 h-1.5 rounded-full bg-navy/30"></span>{t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-gray-200 bg-gray-50/50 p-5">
+                    <p className="text-[11px] font-bold text-gray-400 tracking-widest uppercase mb-3 border-b border-gray-200 pb-2">Everyday Google Products with AI</p>
+                    <div className="flex flex-wrap gap-2">
+                      {['Google Search', 'Google Photos', 'Google Maps', 'Google Lens', 'Google Translate', 'Daily Listen'].map((t) => (
+                        <span key={t} className="inline-flex items-center gap-1.5 px-3 py-2 bg-white rounded-lg text-xs font-medium text-gray-700 border border-gray-200 shadow-sm">
+                          <span className="w-1.5 h-1.5 rounded-full bg-gray-300"></span>{t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
