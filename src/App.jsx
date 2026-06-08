@@ -504,19 +504,6 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-6 pt-5 border-t border-gray-100 space-y-3">
-                  <h4 className="text-sm font-bold text-navy">기존 AI 서비스와의 차별점</h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-gray-50 rounded-lg p-3">
-                      <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">기존 AI 서비스</p>
-                      <p className="text-xs text-gray-500">일회성 문답 방식 AI 챗봇, 대화창 닫으면 초기화</p>
-                    </div>
-                    <div className="bg-g-blue/5 rounded-lg p-3 border border-g-blue/10">
-                      <p className="text-[10px] font-bold text-g-blue uppercase mb-1">부산대 PNU</p>
-                      <p className="text-xs text-gray-600">Gmail·Docs·Drive에 AI 엔진 직접 연결, 개인 맥락 기반 AI</p>
-                    </div>
-                  </div>
-                </div>
               </div>
 
               <div className="bg-navy rounded-2xl p-8 text-white relative overflow-hidden">
