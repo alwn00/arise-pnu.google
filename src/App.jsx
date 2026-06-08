@@ -1,5 +1,6 @@
-import ceremonyImg from '/partnership-ceremony.jpg';
+
 import React, { useState } from 'react';
+import ceremonyImg from '/partnership-ceremony.jpg';
 import {
   Menu, X, Mail, ChevronRight, BookOpen, Award, Users,
   ArrowUpRight, ArrowRight, Play, Sparkles, GraduationCap,
