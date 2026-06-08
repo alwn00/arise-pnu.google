@@ -823,7 +823,7 @@ export default function App() {
                   <div className="text-center">
                     <GraduationCap className="w-16 h-16 text-g-blue/20 mx-auto mb-4" />
                     <p className="text-sm text-gray-500">학부생·대학원생 전원 대상</p>
-                    <p className="text-3xl font-extrabold text-g-blue mt-1">Google AI Pro</p>
+                    <p className="text-3xl font-extrabold text-g-blue mt-1">Workspace for Education plus</p>
                     <p className="text-sm text-gray-500 mt-2">28,000 라이선스 무료 제공</p>
                   </div>
                 </div>
@@ -861,7 +861,7 @@ export default function App() {
                   <div className="text-center">
                     <FlaskConical className="w-16 h-16 text-g-green/20 mx-auto mb-4" />
                     <p className="text-sm text-gray-500">교원 전원 + 연구팀 전용</p>
-                    <p className="text-3xl font-extrabold text-g-green mt-1">Gemini Enterprise</p>
+                    <p className="text-3xl font-extrabold text-g-green mt-1">AI Pro for Education</p>
                     <p className="text-sm text-gray-500 mt-2">커스텀 에이전트 개발 + 고성능 AI</p>
                   </div>
                 </div>
