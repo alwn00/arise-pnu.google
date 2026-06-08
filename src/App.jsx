@@ -473,11 +473,8 @@ export default function App() {
           <div className="grid lg:grid-cols-2 gap-8 items-start">
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
               <div className="aspect-[4/3] bg-gradient-to-br from-navy-50 to-gray-100 flex items-center justify-center relative overflow-hidden">
-                <img
-  src={ceremonyImg}
-  alt="부산대학교-Google for Education AI 교육혁신 파트너십 세레모니"
-  className="w-full h-full object-cover"
-/>
+                <img src={ceremonyImg} alt="부산대학교-Google for Education AI 교육혁신 파트너십 세레모니" className="w-full h-full object-cover"
+                />
                   <div className="hidden absolute inset-0 items-center justify-center flex-col gap-3 text-gray-400">
                   <Handshake className="w-16 h-16 text-gray-300" />
                   <p className="text-sm font-semibold">파트너십 세레모니 사진</p>
