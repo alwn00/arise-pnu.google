@@ -472,6 +472,10 @@ export default function App() {
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
               <div className="aspect-[4/3] bg-gradient-to-br from-navy-50 to-gray-100 flex items-center justify-center relative overflow-hidden">
                 <img src="/partnership-ceremony.jpg" alt="부산대학교-Google for Education AI 교육혁신 파트너십 세레모니" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }} />
+                  <div className="hidden absolute inset-0 items-center justify-center flex-col gap-3 text-gray-400">
+                  <Handshake className="w-16 h-16 text-gray-300" />
+                  <p className="text-sm font-semibold">파트너십 세레모니 사진</p>
+                </div>
               </div>
               <div className="p-6">
                 <p className="text-xs font-mono text-gray-400 mb-2">2026.05.13 · 부산대 대학본부 3층 대회의실</p>
