@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import {
-  Menu, X, Mail, ChevronRight, BookOpen, Laptop, Award, Users,
-  Lightbulb, ArrowUpRight, ArrowRight, Play, Sparkles, GraduationCap,
-  Globe, FlaskConical, Briefcase, ExternalLink, Building2, ChevronDown,
-  Newspaper, Quote, Handshake,
+  Menu, X, Mail, ChevronRight, BookOpen, Award, Users,
+  ArrowUpRight, ArrowRight, Play, Sparkles, GraduationCap,
+  Globe, FlaskConical, ExternalLink, Building2, ChevronDown,
+  Newspaper, Quote, Handshake, AlertCircle, CheckCircle2,
+  FileText, XCircle, ArrowDown,
 } from 'lucide-react';
 
 /* ── Constants ── */
@@ -12,7 +13,7 @@ const NAV = [
   ['vision', '사업소개'],
   ['partnership', '파트너십'],
   ['ecosystem', 'AI 생태계'],
-  ['ai-services', 'AI 서비스'],
+  ['ai-services', 'AI Ecosystem'],
   ['audience', '대상별 서비스'],
   ['education', '교육'],
   ['research', '연구'],
@@ -21,21 +22,21 @@ const NAV = [
 ];
 
 const RESEARCH_LIST = [
-  "생성형 AI를 활용한 전공별 플립드 러닝 수업 모델 개발",
-  "Gemini 기반 에듀테크 도구의 교수학습 효과성 검증 연구",
-  "대학 글쓰기 교육에서 AI 피드백 시스템의 신뢰도 분석",
-  "AI Literacy 역량 측정을 위한 평가 도구 개발 및 타당화",
-  "단과대학별 AI+X 융합 교육과정 표준 가이드라인 수립",
-  "교원 AI 역량 강화를 위한 맞춤형 연수 프로그램 실증",
-  "멀티모달 AI를 활용한 학습 부진 학생 조기 예측 및 처방",
-  "구글 워크스페이스 기반 협력 학습이 대학생 문제해결력에 미치는 영향",
-  "의료/바이오 전공자를 위한 맞춤형 AI 데이터 분석 교육 연구",
-  "AI 기반 챗봇을 활용한 맞춤형 학업 상담 시스템 교수 만족도 조사",
-  "지역 사회 문제 해결을 위한 산학 연계 AI 프로젝트 수업 모델",
-  "디지털 취약 계층 학생을 위한 AI 리터러시 격차 해소 방안",
-  "소형 언어 모델(sLLM)을 활용한 학내 교육 행정 효율화 연구",
-  "AI 윤리 및 데이터 보안 강화를 위한 대학 강의 가이드라인 개발",
-  "에듀테크 맞춤형 AI 스타트업 연계 교육 혁신 생태계 구축 방안",
+  { dept: '교양교육원', title: '대학 교양 교과 맞춤형 혁신모델 AI Agent "MATE-PRISM" 개발 연구' },
+  { dept: '언어정보학과', title: '한국어 \'형태론\' 교과 맞춤형 AI 튜터 에이전트(EnnoiAImorpho) 개발 및 메타언어 인식 수업 혁신 모델 체계화' },
+  { dept: '조경학과', title: '근거기반조경계획 에이전트 개발(Smart Green Studio v2.0)' },
+  { dept: '바이오소재과학과', title: '바이오소재 인체적합성 예측 AI수업 혁신모델 (BioMat)' },
+  { dept: '화학과', title: '이공계 기초과학(일반화학, 일반물리) 교육을 위한 교과 맞춤형 AI Agent 개발 및 수업혁신 실증 연구' },
+  { dept: '특수교육과', title: 'AI IEP/BIP Copilot: AI agents 기반 대학생 역량 강화 및 교수 전문성 혁신 모델 연구' },
+  { dept: '체육교육과', title: '체육교육과 수업 혁신을 위한 운동 동작 분석 기반 AI MOVE-Agent 개발 및 적용' },
+  { dept: '약학과', title: '해커톤 연계 AI 기반 의약정보학 부트캠프 프로그램 개발' },
+  { dept: '식품영양학과', title: 'CGM 기반 개인맞춤형 영양 AI 학습지원 시스템 개발 및 임상영양 교육 혁신모델 실증 연구' },
+  { dept: '조형학과', title: '가구·조형 교육을 위한 물성 기반 AI 구조 튜터링 개발 연구' },
+  { dept: '의학과', title: 'AI 기반 환자 사례 생성과 임상수행평가(CPX) 채점 시스템 개발을 통한 의학교육 혁신 모델 연구' },
+  { dept: '의생명융합공학부', title: '데이터과학 교육혁신을 위한 다차원 AI Agent 개발' },
+  { dept: '간호학과', title: '개편 간호사 국가시험 대비 AI 기반 통합사례(Comprehensive Case) 수업 혁신모델 개발' },
+  { dept: '건축학과', title: '생성형 AI와 멀티에이전트를 활용한 지능형 설계 스튜디오 구축' },
+  { dept: '데이터사이언스', title: '다문화 수용성 증진을 위한 근거 기반 토론 지원 AI Tutor 개발 및 수업 적용 실증' },
 ];
 
 /* ── Component ── */
@@ -43,10 +44,19 @@ const RESEARCH_LIST = [
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('student');
+  const [registerModal, setRegisterModal] = useState(null); // 'student' | 'faculty' | null
+  const [facultyStep, setFacultyStep] = useState('check'); // 'check' | 'method1' | 'method2'
+  const [agreedNotice, setAgreedNotice] = useState(false);
 
   const go = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setMobileOpen(false);
+  };
+
+  const openRegister = (type) => {
+    setRegisterModal(type);
+    setFacultyStep('check');
+    setAgreedNotice(false);
   };
 
   const GoogleForEdu = ({ className = '' }) => (
@@ -63,6 +73,248 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans antialiased selection:bg-navy selection:text-white">
+
+      {/* ================================================================
+          계정 등록 모달
+      ================================================================ */}
+      {registerModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={() => setRegisterModal(null)}>
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+          <div className="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
+              <h3 className="font-bold text-navy text-lg">
+                {registerModal === 'student' ? '학생 계정 등록 안내' : '교원 계정 등록 안내'}
+              </h3>
+              <button onClick={() => setRegisterModal(null)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400"><X className="w-5 h-5" /></button>
+            </div>
+
+            <div className="p-6">
+              {/* ── 학생 모달 ── */}
+              {registerModal === 'student' && (
+                <div className="space-y-6">
+                  <div className="bg-g-blue/5 border border-g-blue/10 rounded-xl p-5">
+                    <p className="text-sm font-bold text-navy mb-2">부산대학교 @pusan.ac.kr 계정으로 바로 이용 가능</p>
+                    <p className="text-xs text-gray-500">구글 AI 서비스는 부산대학교 재학생 전용입니다. (휴학생, 졸업생 제외)</p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="border border-gray-200 rounded-xl p-5">
+                      <div className="flex items-start gap-3">
+                        <span className="w-6 h-6 rounded-full bg-g-blue text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                        <div>
+                          <h4 className="font-bold text-navy text-sm">기존 @pusan.ac.kr 계정이 있는 경우</h4>
+                          <p className="text-xs text-gray-500 mt-1 leading-relaxed">google.com에서 학교 계정으로 로그인 후 즉시 구글 AI 서비스 사용 가능</p>
+                          <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-3 px-4 py-2 bg-g-blue text-white rounded-lg text-xs font-semibold hover:bg-blue-600 transition-colors">
+                            Google AI 서비스 바로가기 <ExternalLink className="w-3 h-3 ml-1.5" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border border-gray-200 rounded-xl p-5">
+                      <div className="flex items-start gap-3">
+                        <span className="w-6 h-6 rounded-full bg-g-blue text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                        <div>
+                          <h4 className="font-bold text-navy text-sm">기존 @pusan.ac.kr 계정이 없는 경우</h4>
+                          <p className="text-xs text-gray-500 mt-1 leading-relaxed">부산대학교 웹메일에 접속하여 가입 진행 후, 생성된 계정으로 AI 서비스 이용 가능</p>
+                          <div className="mt-3 bg-gray-50 rounded-lg p-3 space-y-1.5">
+                            <p className="text-[10px] font-bold text-gray-400 uppercase">가입 절차</p>
+                            <div className="flex items-center gap-2 text-xs text-gray-600">
+                              <span className="text-[10px] font-mono font-bold text-g-blue">01</span> 웹메일 가입 페이지 접속
+                            </div>
+                            <div className="flex items-center gap-2 text-xs text-gray-600">
+                              <span className="text-[10px] font-mono font-bold text-g-blue">02</span> 정보 입력 및 신청
+                            </div>
+                            <div className="flex items-center gap-2 text-xs text-gray-600">
+                              <span className="text-[10px] font-mono font-bold text-g-blue">03</span> 승인 후 계정 생성 완료 메일 수신
+                            </div>
+                            <div className="flex items-center gap-2 text-xs text-gray-600">
+                              <span className="text-[10px] font-mono font-bold text-g-blue">04</span> 생성된 계정으로 Google AI 서비스 이용
+                            </div>
+                          </div>
+                          <a href="https://webmail.pusan.ac.kr" target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-3 px-4 py-2 bg-navy text-white rounded-lg text-xs font-semibold hover:bg-navy-light transition-colors">
+                            부산대 웹메일 바로가기 <ExternalLink className="w-3 h-3 ml-1.5" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-amber-50 border border-amber-200/60 rounded-xl p-4 flex items-start gap-3">
+                    <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                    <div className="text-xs text-amber-800 leading-relaxed">
+                      <p className="font-semibold mb-1">유의사항</p>
+                      <p>@pusan.ac.kr 계정은 학교에서 제공하는 교육용 계정으로, 개인 Gmail 계정과 구분됩니다.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ── 교원 모달 ── */}
+              {registerModal === 'faculty' && (
+                <div className="space-y-6">
+                  {/* Step: G-Suite 계정 확인 */}
+                  {facultyStep === 'check' && (
+                    <>
+                      <div className="bg-g-green/5 border border-g-green/10 rounded-xl p-5 text-center">
+                        <p className="text-lg font-bold text-navy mb-2">G-Suite 계정이 있으신가요?</p>
+                        <p className="text-xs text-gray-500">기존 부산대 도메인 구글 계정(@pusan.ac.kr) 보유 여부를 확인해주세요.</p>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <button onClick={() => setFacultyStep('has-account')} className="p-5 rounded-xl border-2 border-g-green bg-g-green/5 text-center hover:bg-g-green/10 transition-colors">
+                          <CheckCircle2 className="w-8 h-8 text-g-green mx-auto mb-2" />
+                          <p className="font-bold text-navy text-sm">네, 있습니다</p>
+                          <p className="text-[10px] text-gray-400 mt-1">구글 서비스 그대로 사용</p>
+                        </button>
+                        <button onClick={() => setFacultyStep('no-account')} className="p-5 rounded-xl border-2 border-gray-200 text-center hover:border-navy hover:bg-navy-50 transition-colors">
+                          <XCircle className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                          <p className="font-bold text-navy text-sm">아니요, 없습니다</p>
+                          <p className="text-[10px] text-gray-400 mt-1">계정 신청 필요</p>
+                        </button>
+                      </div>
+                    </>
+                  )}
+
+                  {/* G-Suite 있음 */}
+                  {facultyStep === 'has-account' && (
+                    <>
+                      <button onClick={() => setFacultyStep('check')} className="text-xs text-gray-400 hover:text-navy flex items-center gap-1"><ChevronRight className="w-3 h-3 rotate-180" /> 돌아가기</button>
+                      <div className="bg-g-green/5 border border-g-green/10 rounded-xl p-5">
+                        <CheckCircle2 className="w-8 h-8 text-g-green mb-3" />
+                        <h4 className="font-bold text-navy mb-2">이미 준비 완료!</h4>
+                        <p className="text-sm text-gray-500 leading-relaxed">기존 @pusan.ac.kr 구글 계정으로 바로 AI 서비스를 이용하실 수 있습니다.</p>
+                      </div>
+                      <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" className="block w-full text-center px-5 py-3 bg-g-green text-white rounded-xl font-semibold text-sm hover:bg-green-600 transition-colors">
+                        Google AI 서비스 바로가기 <ExternalLink className="w-3.5 h-3.5 ml-1.5 inline" />
+                      </a>
+                    </>
+                  )}
+
+                  {/* G-Suite 없음 → 두 가지 방법 선택 */}
+                  {facultyStep === 'no-account' && (
+                    <>
+                      <button onClick={() => setFacultyStep('check')} className="text-xs text-gray-400 hover:text-navy flex items-center gap-1"><ChevronRight className="w-3 h-3 rotate-180" /> 돌아가기</button>
+                      <p className="text-sm font-bold text-navy">계정 신청 방법을 선택하세요</p>
+                      <div className="space-y-3">
+                        <button onClick={() => setFacultyStep('method1')} className="w-full text-left p-5 rounded-xl border-2 border-gray-200 hover:border-g-blue hover:bg-g-blue/5 transition-colors">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="px-2 py-0.5 rounded-full bg-g-blue/10 text-g-blue text-[10px] font-bold">방법 1</span>
+                            <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 text-[10px] font-bold">기존 메일 유지</span>
+                          </div>
+                          <h4 className="font-bold text-navy text-sm">신규 웹메일 생성 (구글 AI 서비스용)</h4>
+                          <p className="text-xs text-gray-500 mt-1">기존 웹메일은 유지하면서, 별도 구글 계정을 새로 만듭니다.</p>
+                        </button>
+                        <button onClick={() => { setFacultyStep('method2'); setAgreedNotice(false); }} className="w-full text-left p-5 rounded-xl border-2 border-gray-200 hover:border-g-green hover:bg-g-green/5 transition-colors">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="px-2 py-0.5 rounded-full bg-g-green/10 text-g-green text-[10px] font-bold">방법 2</span>
+                            <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">메일 전환</span>
+                          </div>
+                          <h4 className="font-bold text-navy text-sm">기존 웹메일 ID를 그대로 사용</h4>
+                          <p className="text-xs text-gray-500 mt-1">기존 웹메일을 Google 서비스로 전환합니다.</p>
+                        </button>
+                      </div>
+                    </>
+                  )}
+
+                  {/* 방법 1: 신규 웹메일 생성 */}
+                  {facultyStep === 'method1' && (
+                    <>
+                      <button onClick={() => setFacultyStep('no-account')} className="text-xs text-gray-400 hover:text-navy flex items-center gap-1"><ChevronRight className="w-3 h-3 rotate-180" /> 돌아가기</button>
+                      <div className="bg-g-blue/5 border border-g-blue/10 rounded-xl p-5">
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="px-2 py-0.5 rounded-full bg-g-blue/10 text-g-blue text-[10px] font-bold">방법 1</span>
+                          <h4 className="font-bold text-navy">신규 구글 AI 서비스용 웹메일 ID 생성</h4>
+                        </div>
+                        <p className="text-xs text-gray-500 mb-1">기존 @pusan.ac.kr 계정을 그대로 사용하면서, 새로운 Google 계정을 추가로 만들어 AI 서비스를 이용하는 방법입니다.</p>
+                      </div>
+
+                      <div className="bg-gray-50 rounded-xl p-5 space-y-3">
+                        <p className="text-[10px] font-bold text-gray-400 uppercase">신청 절차</p>
+                        {[
+                          '기존 부산대학교 웹메일 로그인 (현재 사용 중인 ID로 접속)',
+                          '좌측 메뉴 하단 「구글 아이디 신청」 클릭',
+                          '신규 구글 아이디 신청서 작성 (기존 ID와 다른 ID로 생성)',
+                        ].map((step, i) => (
+                          <div key={i} className="flex items-start gap-3">
+                            <span className="w-5 h-5 rounded-full bg-g-blue text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
+                            <p className="text-xs text-gray-600">{step}</p>
+                          </div>
+                        ))}
+                        <p className="text-xs text-g-blue font-semibold mt-2">※ 신청 후 구글 서비스를 즉시 사용 가능합니다.</p>
+                      </div>
+
+                      <div className="bg-amber-50 border border-amber-200/60 rounded-xl p-4 flex items-start gap-3">
+                        <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                        <p className="text-xs text-amber-800">신규로 생성된 계정(또 다른 @pusan.ac.kr)으로 Google AI 서비스를 이용할 수 있으며, 기존 계정의 메일도 계속 사용할 수 있습니다.</p>
+                      </div>
+
+                      <a href="https://webmail.pusan.ac.kr" target="_blank" rel="noopener noreferrer" className="block w-full text-center px-5 py-3 bg-navy text-white rounded-xl font-semibold text-sm hover:bg-navy-light transition-colors">
+                        부산대 웹메일 바로가기 <ExternalLink className="w-3.5 h-3.5 ml-1.5 inline" />
+                      </a>
+                    </>
+                  )}
+
+                  {/* 방법 2: 기존 웹메일 ID 그대로 사용 */}
+                  {facultyStep === 'method2' && (
+                    <>
+                      <button onClick={() => setFacultyStep('no-account')} className="text-xs text-gray-400 hover:text-navy flex items-center gap-1"><ChevronRight className="w-3 h-3 rotate-180" /> 돌아가기</button>
+                      <div className="bg-g-green/5 border border-g-green/10 rounded-xl p-5">
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="px-2 py-0.5 rounded-full bg-g-green/10 text-g-green text-[10px] font-bold">방법 2</span>
+                          <h4 className="font-bold text-navy">기존 부산대학교 웹메일 ID를 그대로 사용</h4>
+                        </div>
+                        <p className="text-xs text-gray-500">기존 @pusan.ac.kr 웹메일을 Google 서비스로 전환하여 사용하는 방법입니다.</p>
+                      </div>
+
+                      <div className="bg-gray-50 rounded-xl p-5 space-y-3">
+                        <p className="text-[10px] font-bold text-gray-400 uppercase">신청 절차</p>
+                        {[
+                          '메일 백업 (웹메일 로그인 → 설정 → 백업 → ZIP 파일 저장)',
+                          'AX·정보화혁신본부(help@pusan.ac.kr)로 신청서 작성 후 구글 서비스 신청 메일 발송',
+                          '신청 후 2~3일 이내에 기존 ID로 구글 AI 사용 가능',
+                        ].map((step, i) => (
+                          <div key={i} className="flex items-start gap-3">
+                            <span className="w-5 h-5 rounded-full bg-g-green text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
+                            <p className="text-xs text-gray-600">{step}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="bg-red-50 border border-red-200/60 rounded-xl p-4 space-y-2">
+                        <div className="flex items-start gap-3">
+                          <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                          <div className="text-xs text-red-800 leading-relaxed space-y-1">
+                            <p className="font-semibold">유의사항을 반드시 확인하세요</p>
+                            <p>• 기존 부산대 도메인 구글 계정이 있으면 전환할 수 없습니다.</p>
+                            <p>• 전환 완료 후 기존 웹메일 서비스는 더 이상 사용할 수 없습니다.</p>
+                            <p>• 전환 후 메일 화면은 초기화 상태(빈 화면)로 표시됩니다.</p>
+                            <p>• 백업 파일은 보관용이며, 새 구글 메일 서비스로 업로드하여 복원할 수 없습니다.</p>
+                          </div>
+                        </div>
+                        <label className="flex items-center gap-2 mt-3 cursor-pointer">
+                          <input type="checkbox" checked={agreedNotice} onChange={(e) => setAgreedNotice(e.target.checked)} className="w-4 h-4 rounded border-gray-300 text-g-green" />
+                          <span className="text-xs font-semibold text-red-800">위 유의사항을 모두 확인했습니다.</span>
+                        </label>
+                      </div>
+
+                      {agreedNotice ? (
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfhUVnUCP1JDNJ4q8sV5Vt2-CNlsWslGEoOKKysuoxGtHci5Q/viewform?usp=header" target="_blank" rel="noopener noreferrer" className="block w-full text-center px-5 py-3 bg-navy text-white rounded-xl font-semibold text-sm hover:bg-navy-light transition-colors">
+                          구글 서비스 전환 신청하기 <ExternalLink className="w-3.5 h-3.5 ml-1.5 inline" />
+                        </a>
+                      ) : (
+                        <button disabled className="block w-full text-center px-5 py-3 bg-gray-200 text-gray-400 rounded-xl font-semibold text-sm cursor-not-allowed">
+                          유의사항을 확인해주세요
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
 
       {/* ================================================================
           NAV
@@ -103,14 +355,13 @@ export default function App() {
 
 
       {/* ================================================================
-          1. HERO  —  Navy 배경, KPI, 홍보 영상
+          1. HERO
       ================================================================ */}
       <section className="relative bg-navy overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-g-blue/[0.08] rounded-full blur-[120px]"></div>
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-g-green/[0.06] rounded-full blur-[100px]"></div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Title */}
           <div className="pt-16 pb-8 lg:pt-24 lg:pb-12 text-center max-w-4xl mx-auto anim-fade-up">
             <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-g-blue/10 text-g-blue border border-g-blue/20 mb-6">
               ARISE PNU · AI EDTECH 교육혁신 생태계 구축 사업
@@ -130,13 +381,6 @@ export default function App() {
             <p className="mt-6 text-lg text-white/40 max-w-2xl mx-auto leading-relaxed">
               부산대학교와 Google for Education이 함께 대학 교육의 미래를 열어갑니다.
             </p>
-
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <button onClick={() => go('vision')} className="px-6 py-3 rounded-lg bg-white text-navy font-semibold text-sm hover:bg-gray-100 transition-all">사업 소개</button>
-              <button onClick={() => go('ecosystem')} className="px-6 py-3 rounded-lg bg-white/10 text-white font-semibold text-sm hover:bg-white/15 transition-all border border-white/10">
-                AI 서비스 이용하기 <ArrowRight className="w-4 h-4 ml-1.5 inline" />
-              </button>
-            </div>
           </div>
 
           {/* Video */}
@@ -156,12 +400,12 @@ export default function App() {
           {/* KPI */}
           <div className="border-t border-white/10 py-10 grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {[
-              { value: '국내 최초', sub: 'Cloud-to-AI Workspace 전면 도입' },
-              { value: '28,000', sub: 'Google AI Pro 라이선스 제공' },
-              { value: '1,000', sub: 'Gemini Enterprise 연구 계정' },
+              { value: '국내 최초', sub: '교육용 AI Ecosystem 전면 도입' },
+              { value: '28,000', sub: (<>Workspace for Education Plus<br/>AI Pro for Education</>) },
+              { value: '1,000', sub: 'Gemini Enterprise 라이선스 제공' },
               { value: '15개 과제', sub: 'AI STAR 연구 프로젝트' },
-            ].map((k) => (
-              <div key={k.sub}>
+            ].map((k, i) => (
+              <div key={i}>
                 <p className="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">{k.value}</p>
                 <p className="mt-1 text-sm text-white/35 font-medium">{k.sub}</p>
               </div>
@@ -172,27 +416,33 @@ export default function App() {
 
 
       {/* ================================================================
-          2. WHY PNU AI  —  4대 혁신 축
+          2. WHY PNU X GOOGLE FOR EDUCATION — 4대 혁신 트랙
       ================================================================ */}
       <section id="vision" className="py-20 lg:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mb-14">
-            <p className="text-sm font-bold text-navy/40 tracking-widest uppercase mb-3">Why PNU AI</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-navy">동남권 AI 거점대학,<br/>부산대학교의 4대 혁신 축</h2>
+          <div className="max-w-3xl mb-14">
+            <p className="text-sm font-bold text-navy/40 tracking-widest uppercase mb-3">WHY PNU X GOOGLE FOR EDUCATION</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-navy">글로벌 AI 교육혁신 대학 도약,<br/>파트너십 4대 혁신 트랙</h2>
           </div>
 
           <div className="grid lg:grid-cols-4 gap-px bg-gray-200 rounded-2xl overflow-hidden">
             {[
-              { icon: <GraduationCap className="w-6 h-6" />, num: '01', title: 'AI 교육', desc: '전교생 Gemini 활용 교육, AI Literacy MOOC, Gemini Academy 국제 자격과정', accent: 'border-t-g-blue' },
-              { icon: <FlaskConical className="w-6 h-6" />, num: '02', title: 'AI 연구', desc: 'AI STAR 프로젝트, 교수학습 실증 연구, 구글 공동 연구 프로그램', accent: 'border-t-g-green' },
-              { icon: <Building2 className="w-6 h-6" />, num: '03', title: '산학협력', desc: '산학 AI 프로젝트, 지역 문제해결 해커톤, 에듀테크 스타트업 연계', accent: 'border-t-g-yellow' },
-              { icon: <Globe className="w-6 h-6" />, num: '04', title: '글로벌', desc: 'Gemini Connect Seoul, APAC 리더 시리즈, Google Korea 파트너 포럼', accent: 'border-t-g-red' },
+              { icon: <GraduationCap className="w-6 h-6" />, num: '01', title: 'AI 교육', lines: ['부산대 맞춤형 Gemini Academy', '모두를 위한 AI Literacy MOOC', '단과대학 맞춤형 AI+X 활용교육'], accent: 'border-t-g-blue' },
+              { icon: <FlaskConical className="w-6 h-6" />, num: '02', title: 'AI 연구', lines: ['AI STAR 프로젝트', 'AI 수업혁신 실증 연구', 'Google Cloud 연계 연구 프로그램'], accent: 'border-t-g-green' },
+              { icon: <Users className="w-6 h-6" />, num: '03', title: '참여 프로그램', lines: ['Google 기술 & 전문가 세션', '실전형 산학 협력 프로젝트', 'AI 학생 커뮤니티'], accent: 'border-t-g-yellow' },
+              { icon: <Globe className="w-6 h-6" />, num: '04', title: '글로벌', lines: ['Gemini Connect Seoul', 'APAC 리더 시리즈', 'Google Korea 파트너 포럼'], accent: 'border-t-g-red' },
             ].map((item) => (
               <div key={item.num} className={`bg-white p-8 lg:p-10 border-t-[3px] ${item.accent}`}>
                 <span className="text-xs font-mono font-bold text-gray-300">{item.num}</span>
                 <div className="mt-4 mb-4 text-navy">{item.icon}</div>
-                <h3 className="text-lg font-bold text-navy mb-2">{item.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
+                <h3 className="text-lg font-bold text-navy mb-3">{item.title}</h3>
+                <ul className="space-y-1.5">
+                  {item.lines.map((line) => (
+                    <li key={line} className="text-sm text-gray-500 flex items-start gap-2">
+                      <span className="w-1 h-1 rounded-full bg-gray-300 mt-2 shrink-0"></span>{line}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
@@ -201,7 +451,7 @@ export default function App() {
 
 
       {/* ================================================================
-          2.5. 파트너십 체결 + 보도자료 + 총장 코멘트
+          2.5. 파트너십 체결 + 보도자료
       ================================================================ */}
       <section id="partnership" className="py-20 lg:py-28 bg-navy-50 border-b border-gray-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -212,18 +462,9 @@ export default function App() {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8 items-start">
-            {/* Left: 세레모니 사진 */}
             <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
               <div className="aspect-[4/3] bg-gradient-to-br from-navy-50 to-gray-100 flex items-center justify-center relative overflow-hidden">
-                <img
-                  src="/partnership-ceremony.jpg"
-                  alt="부산대학교-Google for Education AI 교육혁신 파트너십 세레모니"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.nextElementSibling.style.display = 'flex';
-                  }}
-                />
+                <img src="/partnership-ceremony.jpg" alt="부산대학교-Google for Education AI 교육혁신 파트너십 세레모니" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }} />
                 <div className="hidden absolute inset-0 items-center justify-center flex-col gap-3 text-gray-400">
                   <Handshake className="w-16 h-16 text-gray-300" />
                   <p className="text-sm font-semibold">파트너십 세레모니 사진</p>
@@ -232,26 +473,18 @@ export default function App() {
               <div className="p-6">
                 <p className="text-xs font-mono text-gray-400 mb-2">2026.05.13 · 부산대 대학본부 3층 대회의실</p>
                 <h4 className="font-bold text-navy mb-2">AI 교육혁신 파트너십 세레모니</h4>
-                <p className="text-sm text-gray-500 leading-relaxed">
-                  Kevin Kells Google for Education 글로벌 디렉터, 최재원 부산대학교 총장이 참석하여 'AI 교육혁신 파트너십'을 공식 체결하고 협력의 시작을 알렸습니다.
-                </p>
+                <p className="text-sm text-gray-500 leading-relaxed">Kevin Kells Google for Education 글로벌 디렉터, 최재원 부산대학교 총장이 참석하여 'AI 교육혁신 파트너십'을 공식 체결하고 협력의 시작을 알렸습니다.</p>
               </div>
             </div>
 
-            {/* Right: 보도자료 요약 + 총장 코멘트 */}
             <div className="space-y-6">
-              {/* 보도 헤드라인 */}
               <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
                 <div className="flex items-center gap-2 mb-5">
                   <Newspaper className="w-5 h-5 text-g-blue" />
                   <span className="text-xs font-bold tracking-widest text-g-blue uppercase">Press Release</span>
                 </div>
-                <h3 className="text-xl font-bold text-navy mb-4 leading-snug">
-                  국내 대학 최초 'Cloud-to-AI Workspace' 전면 도입
-                </h3>
-                <p className="text-sm text-gray-500 leading-relaxed mb-5">
-                  부산대학교가 국내 대학 최초로 전체 학생과 교원 대상 Google Workspace for Education Plus와 Google AI Pro for Education을 동시 도입합니다. 교수·학생 28,000여 명에게 통합 AI 학습·연구 환경을 제공하며, 글로벌 AI 선도대학으로의 도약에 속도를 냅니다.
-                </p>
+                <h3 className="text-xl font-bold text-navy mb-4 leading-snug">국내 대학 최초 교육용 AI Ecosystem 전면 도입</h3>
+                <p className="text-sm text-gray-500 leading-relaxed mb-5">부산대학교가 국내 대학 최초로 전체 학생과 교원 대상 Google Workspace for Education Plus와 Google AI Pro for Education을 동시 도입합니다.</p>
                 <div className="grid grid-cols-3 gap-3">
                   {[
                     { label: 'AI Pro', value: '28,000', unit: '라이선스' },
@@ -264,9 +497,8 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-
                 <div className="mt-6 pt-5 border-t border-gray-100 space-y-3">
-                  <h4 className="text-sm font-bold text-navy">기존 API 중개형 서비스와의 차별점</h4>
+                  <h4 className="text-sm font-bold text-navy">기존 AI 서비스와의 차별점</h4>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="bg-gray-50 rounded-lg p-3">
                       <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">기존 AI 서비스</p>
@@ -280,35 +512,27 @@ export default function App() {
                 </div>
               </div>
 
-              {/* 총장 코멘트 */}
               <div className="bg-navy rounded-2xl p-8 text-white relative overflow-hidden">
-                <div className="absolute top-4 right-6 text-white/5">
-                  <Quote className="w-20 h-20" />
-                </div>
+                <div className="absolute top-4 right-6 text-white/5"><Quote className="w-20 h-20" /></div>
                 <div className="relative">
-                  <p className="text-white/70 leading-relaxed text-sm mb-5">
-                    "학생이 자신의 자료를 넣어 함께 분석하고, 교수가 강의 전체를 AI와 함께 다룰 수 있는 — 학습과 연구 방식 자체를 바꾸는 인프라를 구축하는 것입니다. 부산대는 모든 구성원이 디지털 격차 없이 AI 시대를 준비할 수 있도록 앞장서겠습니다."
-                  </p>
+                  <p className="text-white/70 leading-relaxed text-sm mb-5">"학생이 자신의 자료를 넣어 함께 분석하고, 교수가 강의 전체를 AI와 함께 다룰 수 있는 — 학습과 연구 방식 자체를 바꾸는 인프라를 구축하는 것입니다. 부산대는 모든 구성원이 디지털 격차 없이 AI 시대를 준비할 수 있도록 앞장서겠습니다."</p>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/50 text-sm font-bold">최</div>
-                    <div>
-                      <p className="font-bold text-white text-sm">최재원</p>
-                      <p className="text-white/35 text-xs">부산대학교 총장</p>
-                    </div>
+                    <div><p className="font-bold text-white text-sm">최재원</p><p className="text-white/35 text-xs">부산대학교 총장</p></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Cloud-to-AI Workspace 핵심 가치 */}
+          {/* 교육용 AI Ecosystem 핵심 가치 — 디지털 격차 해소 first */}
           <div className="mt-12 bg-white rounded-2xl border border-gray-200 p-8 lg:p-10 shadow-sm">
-            <h4 className="text-lg font-bold text-navy mb-6 text-center">Cloud-to-AI Workspace가 바꾸는 대학 교육</h4>
+            <h4 className="text-lg font-bold text-navy mb-6 text-center">교육용 AI Ecosystem이 바꾸는 대학 교육</h4>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
+                { title: '디지털 격차 해소', desc: '개인 유료 구독 없이 전 구성원에게 동일한 AI 교육 환경을 보편적 복지로 제공', color: 'border-l-[#FBBC04]' },
                 { title: '맥락 기반 AI', desc: '개인 드라이브 자료를 AI가 직접 분석·학습하여 맞춤형 인사이트 도출', color: 'border-l-[#4285F4]' },
                 { title: 'NotebookLM 연구 인프라', desc: '수백 페이지의 논문·실험 데이터를 AI가 요약·대화·분석하는 개인 맞춤형 수석 연구원', color: 'border-l-[#EA4335]' },
-                { title: '디지털 격차 해소', desc: '개인 유료 구독 없이 전 구성원에게 동일한 AI 교육 환경을 보편적 복지로 제공', color: 'border-l-[#FBBC04]' },
                 { title: '멀티모달 연구 지원', desc: '고해상도 이미지 생성·편집, 실시간 코드 디버깅까지 전 학문 분야 연구 생산성 극대화', color: 'border-l-[#34A853]' },
               ].map((item) => (
                 <div key={item.title} className={`border-l-[3px] ${item.color} pl-5`}>
@@ -323,17 +547,16 @@ export default function App() {
 
 
       {/* ================================================================
-          3. AI 생태계  —  인포그래픽 + 계정 등록 CTA
+          3. AI 생태계 — 인포그래픽 + 계정 등록 (모달)
       ================================================================ */}
       <section id="ecosystem" className="py-20 lg:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <p className="text-sm font-bold text-g-blue tracking-widest uppercase mb-3">AI Ecosystem</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-navy">교육용 Google AI 생태계 제공</h2>
-            <p className="mt-3 text-gray-500">국내 최초, 교육용 Google Cloud-to-AI Workspace를 모든 교원과 학생에게 제공합니다.</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-navy">교육용 AI Ecosystem 제공</h2>
+            <p className="mt-3 text-gray-500">국내 최초, 교육용 AI Ecosystem을 모든 교원과 학생에게 제공합니다.</p>
           </div>
 
-          {/* Infographic: Google → PNU → Services → Users */}
           <div className="max-w-4xl mx-auto mb-16">
             <div className="flex flex-col items-center">
               <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-8 py-5 flex items-center gap-3">
@@ -341,7 +564,7 @@ export default function App() {
               </div>
               <div className="w-px h-8 bg-gray-300 relative"><ChevronDown className="w-4 h-4 text-gray-300 absolute -bottom-2 left-1/2 -translate-x-1/2" /></div>
               <div className="bg-navy rounded-2xl px-8 py-5 text-center shadow-lg">
-                <p className="text-white font-extrabold text-lg">PNU Cloud-to-AI Workspace</p>
+                <p className="text-white font-extrabold text-lg">PNU 교육용 AI Ecosystem</p>
                 <p className="text-white/40 text-xs mt-1">부산대학교 AI 교육 통합 플랫폼</p>
               </div>
               <div className="w-px h-8 bg-gray-300 relative"><ChevronDown className="w-4 h-4 text-gray-300 absolute -bottom-2 left-1/2 -translate-x-1/2" /></div>
@@ -379,21 +602,21 @@ export default function App() {
             </div>
           </div>
 
-          {/* 계정 등록 CTA */}
+          {/* 계정 등록 CTA — 모달 트리거 */}
           <div className="max-w-4xl mx-auto bg-navy-50 rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-sm">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
               <div>
                 <h4 className="text-lg font-bold text-navy mb-1">서비스 이용 및 계정 등록 방법</h4>
-                <p className="text-gray-500 text-sm">부산대학교 통합 인증 로그인 후 구글 에듀테크 전용 라이선스 발급 및 등록이 즉시 가능합니다.</p>
+                <p className="text-gray-500 text-sm">버튼을 클릭하면 등록 방법 안내를 확인할 수 있습니다.</p>
                 <p className="text-xs text-gray-400 mt-1">서비스 개시: 2026년 6월 초 · 계약일로부터 1년간 운영</p>
               </div>
               <div className="flex flex-wrap gap-3 shrink-0">
-                <a href="#register-student" className="inline-flex items-center px-5 py-3 bg-white border border-gray-200 rounded-xl font-semibold text-gray-700 hover:bg-gray-100 text-sm transition-all">
-                  학생 계정 등록 <ArrowUpRight className="w-3.5 h-3.5 ml-1.5 text-gray-400" />
-                </a>
-                <a href="#register-faculty" className="inline-flex items-center px-5 py-3 bg-navy text-white rounded-xl font-semibold hover:bg-navy-light text-sm transition-all shadow-sm">
-                  교수 계정 등록 <ArrowUpRight className="w-3.5 h-3.5 ml-1.5 opacity-60" />
-                </a>
+                <button onClick={() => openRegister('student')} className="inline-flex items-center px-5 py-3 bg-white border border-gray-200 rounded-xl font-semibold text-gray-700 hover:bg-gray-100 text-sm transition-all">
+                  <FileText className="w-4 h-4 mr-2 text-g-blue" /> 학생 계정 등록 <ArrowUpRight className="w-3.5 h-3.5 ml-1.5 text-gray-400" />
+                </button>
+                <button onClick={() => openRegister('faculty')} className="inline-flex items-center px-5 py-3 bg-navy text-white rounded-xl font-semibold hover:bg-navy-light text-sm transition-all shadow-sm">
+                  <FileText className="w-4 h-4 mr-2 opacity-60" /> 교원 계정 등록 <ArrowUpRight className="w-3.5 h-3.5 ml-1.5 opacity-60" />
+                </button>
               </div>
             </div>
           </div>
@@ -402,40 +625,123 @@ export default function App() {
 
 
       {/* ================================================================
-          4. AI 서비스 바로가기  —  독립 섹션
+          4. Google AI Ecosystem Map — 반응형
       ================================================================ */}
       <section id="ai-services" className="py-20 lg:py-28 bg-navy-50 border-b border-gray-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-14">
-            <p className="text-sm font-bold text-g-green tracking-widest uppercase mb-3">AI Services</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-navy">지금 바로 사용할 수 있는 Google AI</h2>
-            <p className="mt-3 text-gray-500">부산대 계정으로 로그인하면 즉시 이용 가능합니다.</p>
+            <p className="text-sm font-bold text-g-green tracking-widest uppercase mb-3">Google AI Ecosystem</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-navy">Google AI Ecosystem Map</h2>
+            <p className="mt-3 text-gray-500">부산대 계정으로 로그인하면 Google AI 생태계 전체를 이용할 수 있습니다.</p>
           </div>
 
-          <div className="max-w-5xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-gray-200 rounded-2xl overflow-hidden">
-            {[
-              { name: 'Gemini', desc: 'Gemini 3.1 Pro 기반 AI. 글쓰기, 분석, 코딩, 리서치 — Gmail·Docs 내 AI 작성 지원.', color: 'from-[#4285F4] to-[#6C63FF]' },
-              { name: 'NotebookLM', desc: '논문·실험 데이터·서적을 업로드하면 AI가 요약·대화·인사이트를 도출하는 개인 연구 도우미.', color: 'from-[#EA4335] to-[#FF6D5A]' },
-              { name: 'Google AI Studio', desc: 'Gemini API를 직접 실험하고 프로토타입을 빠르게 만들어보세요.', color: 'from-[#FBBC04] to-[#FF9800]' },
-              { name: 'Cloud Skills Boost', desc: 'Google Cloud 기반 AI/ML 실습 교육과 공인 자격증 준비.', color: 'from-[#34A853] to-[#00C853]' },
-            ].map((t) => (
-              <a key={t.name} href="#" className="group bg-white p-6 lg:p-7 flex flex-col justify-between hover:bg-gray-50 transition-colors">
-                <div>
-                  <p className={`text-xl font-extrabold bg-gradient-to-r ${t.color} bg-clip-text text-transparent mb-3`}>{t.name}</p>
-                  <p className="text-sm text-gray-500 leading-relaxed">{t.desc}</p>
+          {/* Center: Gemini Core */}
+          <div className="max-w-5xl mx-auto">
+            <div className="flex justify-center mb-8">
+              <div className="bg-white rounded-2xl border-2 border-gray-200 shadow-lg px-8 py-6 text-center">
+                <div className="text-4xl mb-2">
+                  <span className="text-[#4285F4] font-bold">G</span>
                 </div>
-                <span className="inline-flex items-center text-xs font-semibold text-gray-400 group-hover:text-navy mt-5 transition-colors">
-                  바로가기 <ExternalLink className="w-3 h-3 ml-1" />
-                </span>
-              </a>
-            ))}
+                <p className="text-xl font-extrabold text-navy">GEMINI</p>
+                <p className="text-xs text-gray-400 mt-1">(Core Foundation)</p>
+                <div className="flex justify-center gap-3 mt-3">
+                  {['Gemini 3 Flash', 'Gemini 3 Thinking', 'Gemini 3 Pro'].map((m) => (
+                    <span key={m} className="px-2 py-1 bg-gray-50 rounded text-[10px] font-mono text-gray-500 border border-gray-100">{m}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Ecosystem Grid */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* Workspace AI */}
+              <div className="bg-white rounded-xl border border-gray-200 p-5">
+                <p className="text-[10px] font-bold text-g-blue tracking-widest uppercase mb-3">Workspace AI</p>
+                <div className="flex flex-wrap gap-2">
+                  {['Gmail', 'Google Docs', 'Google Sheets', 'Google Slides', 'Google Vids'].map((t) => (
+                    <span key={t} className="px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 border border-gray-100">{t}</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Research & Learning */}
+              <div className="bg-white rounded-xl border border-gray-200 p-5">
+                <p className="text-[10px] font-bold text-g-red tracking-widest uppercase mb-3">Research & Learning Tools</p>
+                <div className="flex flex-wrap gap-2">
+                  {['NotebookLM', 'Disco', 'Illuminate', 'Learn Your Way'].map((t) => (
+                    <span key={t} className="px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 border border-gray-100">{t}</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Creative Tools */}
+              <div className="bg-white rounded-xl border border-gray-200 p-5">
+                <p className="text-[10px] font-bold text-g-yellow tracking-widest uppercase mb-3">Creative Tools</p>
+                <div className="flex flex-wrap gap-2">
+                  {['Veo 3', 'Flow', 'Whisk', 'TextFX', 'MusicFX'].map((t) => (
+                    <span key={t} className="px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 border border-gray-100">{t}</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Agents & Automation */}
+              <div className="bg-white rounded-xl border border-gray-200 p-5">
+                <p className="text-[10px] font-bold text-g-green tracking-widest uppercase mb-3">Agents & Automation</p>
+                <div className="flex flex-wrap gap-2">
+                  {['Gemini Agent', 'Project Mariner', 'Google Apps Script'].map((t) => (
+                    <span key={t} className="px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 border border-gray-100">{t}</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Prototyping & Dev */}
+              <div className="bg-white rounded-xl border border-gray-200 p-5">
+                <p className="text-[10px] font-bold text-navy/40 tracking-widest uppercase mb-3">Prototyping & Developer</p>
+                <div className="flex flex-wrap gap-2">
+                  {['Stitch', 'Google AI Studio', 'Firebase Studio'].map((t) => (
+                    <span key={t} className="px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 border border-gray-100">{t}</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Everyday Products */}
+              <div className="bg-white rounded-xl border border-gray-200 p-5">
+                <p className="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-3">Everyday Google Products</p>
+                <div className="flex flex-wrap gap-2">
+                  {['Google Search', 'Google Photos', 'Google Maps', 'Google Lens', 'Google Translate'].map((t) => (
+                    <span key={t} className="px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 border border-gray-100">{t}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* 주요 서비스 바로가기 */}
+            <div className="mt-10 bg-white rounded-2xl border border-gray-200 p-6">
+              <p className="text-xs font-bold text-navy/40 tracking-widest uppercase mb-4 text-center">주요 서비스 바로가기</p>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {[
+                  { name: 'Gemini', desc: 'AI 채팅·분석·코딩', color: 'from-[#4285F4] to-[#6C63FF]', href: 'https://gemini.google.com' },
+                  { name: 'NotebookLM', desc: '논문·자료 AI 분석', color: 'from-[#EA4335] to-[#FF6D5A]', href: 'https://notebooklm.google.com' },
+                  { name: 'Google AI Studio', desc: 'Gemini API 실험', color: 'from-[#FBBC04] to-[#FF9800]', href: 'https://aistudio.google.com' },
+                  { name: 'Flow (Gemini Omni)', desc: '멀티모달 크리에이티브', color: 'from-[#34A853] to-[#00C853]', href: '#' },
+                ].map((t) => (
+                  <a key={t.name} href={t.href} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors">
+                    <div>
+                      <p className={`text-sm font-extrabold bg-gradient-to-r ${t.color} bg-clip-text text-transparent`}>{t.name}</p>
+                      <p className="text-[10px] text-gray-400 mt-0.5">{t.desc}</p>
+                    </div>
+                    <ExternalLink className="w-3.5 h-3.5 text-gray-300 group-hover:text-navy ml-auto shrink-0 transition-colors" />
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
 
       {/* ================================================================
-          5. 대상별 서비스  —  학생 / 교원 탭
+          5. 대상별 서비스 — DX / AX
       ================================================================ */}
       <section id="audience" className="py-20 lg:py-28 bg-white border-b border-gray-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -463,7 +769,10 @@ export default function App() {
             {activeTab === 'student' && (
               <div className="grid lg:grid-cols-2">
                 <div className="p-8 lg:p-12">
-                  <span className="text-xs font-bold text-g-blue tracking-widest uppercase">Student</span>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-bold text-g-blue tracking-widest uppercase">Student</span>
+                    <span className="px-2 py-0.5 rounded-full bg-g-blue/10 text-g-blue text-[10px] font-bold">DX : Workspace for Education Plus</span>
+                  </div>
                   <h3 className="text-2xl font-bold text-navy mt-2 mb-5">학생을 위한 AI 교육</h3>
                   <ul className="space-y-3">
                     {[
@@ -480,9 +789,9 @@ export default function App() {
                       </li>
                     ))}
                   </ul>
-                  <a href="#register-student" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-g-blue hover:underline">
+                  <button onClick={() => openRegister('student')} className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-g-blue hover:underline">
                     학생 계정 등록하기 <ArrowUpRight className="w-4 h-4" />
-                  </a>
+                  </button>
                 </div>
                 <div className="bg-gradient-to-br from-g-blue/5 to-g-blue/10 p-8 lg:p-12 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-gray-200">
                   <div className="text-center">
@@ -498,7 +807,10 @@ export default function App() {
             {activeTab === 'faculty' && (
               <div className="grid lg:grid-cols-2">
                 <div className="p-8 lg:p-12">
-                  <span className="text-xs font-bold text-g-green tracking-widest uppercase">Faculty</span>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-bold text-g-green tracking-widest uppercase">Faculty</span>
+                    <span className="px-2 py-0.5 rounded-full bg-g-green/10 text-g-green text-[10px] font-bold">AX : AI Pro for Education</span>
+                  </div>
                   <h3 className="text-2xl font-bold text-navy mt-2 mb-5">교원을 위한 AI 연구·교수 지원</h3>
                   <ul className="space-y-3">
                     {[
@@ -515,9 +827,9 @@ export default function App() {
                       </li>
                     ))}
                   </ul>
-                  <a href="#register-faculty" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-g-green hover:underline">
+                  <button onClick={() => openRegister('faculty')} className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-g-green hover:underline">
                     교원 계정 등록하기 <ArrowUpRight className="w-4 h-4" />
-                  </a>
+                  </button>
                 </div>
                 <div className="bg-gradient-to-br from-g-green/5 to-g-green/10 p-8 lg:p-12 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-gray-200">
                   <div className="text-center">
@@ -535,12 +847,11 @@ export default function App() {
 
 
       {/* ================================================================
-          6. 교육 프로그램  —  좌우 비대칭 + Gemini Academy 단계 카드
+          6. 교육 프로그램
       ================================================================ */}
       <section id="education" className="py-20 lg:py-28 bg-g-blue/[0.03] border-b border-gray-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-            {/* Left: 텍스트 */}
             <div>
               <p className="text-sm font-bold text-g-blue tracking-widest uppercase mb-3">Education</p>
               <h2 className="text-3xl font-bold text-navy mb-3">교육 프로그램</h2>
@@ -548,34 +859,28 @@ export default function App() {
 
               <div className="space-y-6">
                 {[
-                  { tag: '인증/자격', title: '부산대 맞춤형 Gemini Academy', desc: '부산대 교육 환경 및 인프라를 반영한 맞춤형 Gemini Academy 운영 및 구글 공인 국제 자격증 연계 과정 기회 제공', color: 'bg-g-blue', cta: '과정 상세 보기', ctaColor: 'text-g-blue' },
-                  { tag: '기초/소양', title: '모두를 위한 AI Literacy', desc: '부산대 우수 교수진과 현업 구글러(Googler)가 공동으로 기획 및 제작한 MOOC 기반의 전교생 대상 AI 기초 소양 교육', color: 'bg-g-red', cta: '강좌 리스트 보기', ctaColor: 'text-g-red' },
-                  { tag: '융합/전공', title: '단과대학 맞춤형 AI+X 교육', desc: '각 전공 영역 고유의 도메인 지식(X)과 최신 AI 활용 기술을 융합 결합하여 학과별 경쟁력을 높이는 단과대 맞춤 교육', color: 'bg-g-yellow', cta: '전공별 로드맵 보기', ctaColor: 'text-amber-700' },
-                  { tag: '커뮤니티', title: 'AI 챔피언 그룹 & 캠퍼스 아웃리치', desc: '학생 중심 AI 기반 학습혁신 가속화 그룹 구성 및 구글 임직원 캠퍼스 방문 실전 경험 공유 프로그램', color: 'bg-g-green', cta: '참여 방법 보기', ctaColor: 'text-g-green' },
+                  { tag: '인증/자격', title: '부산대 맞춤형 Gemini Academy', desc: '부산대 교육 환경 및 인프라를 반영한 맞춤형 Gemini Academy 운영 및 구글 공인 국제 자격증 연계 과정 기회 제공', color: 'bg-g-blue', cta: '추후 업데이트 예정', ctaColor: 'text-gray-400' },
+                  { tag: '기초/소양', title: '모두를 위한 AI Literacy', desc: '부산대 우수 교수진과 현업 구글러(Googler)가 공동으로 기획 및 제작한 MOOC 기반의 전교생 대상 AI 기초 소양 교육', color: 'bg-g-red', cta: '추후 업데이트 예정', ctaColor: 'text-gray-400' },
+                  { tag: '융합/전공', title: '단과대학 맞춤형 AI+X 교육', desc: '각 전공 영역 고유의 도메인 지식(X)과 최신 AI 활용 기술을 융합 결합하여 학과별 경쟁력을 높이는 단과대 맞춤 교육', color: 'bg-g-yellow', cta: '추후 업데이트 예정', ctaColor: 'text-gray-400' },
+                  { tag: '커뮤니티', title: 'AI 챔피언 그룹 & 캠퍼스 아웃리치', desc: '학생 중심 AI 기반 학습혁신 가속화 그룹 구성 및 구글 임직원 캠퍼스 방문 실전 경험 공유 프로그램', color: 'bg-g-green', cta: '추후 업데이트 예정', ctaColor: 'text-gray-400' },
                 ].map((p) => (
-                  <div key={p.title} className="flex gap-4 group cursor-pointer">
-                    <div className={`${p.color} w-1 rounded-full shrink-0 group-hover:w-1.5 transition-all`}></div>
+                  <div key={p.title} className="flex gap-4 group">
+                    <div className={`${p.color} w-1 rounded-full shrink-0`}></div>
                     <div>
                       <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{p.tag}</span>
                       <h4 className="font-bold text-navy mt-0.5">{p.title}</h4>
                       <p className="text-sm text-gray-500 mt-1 leading-relaxed">{p.desc}</p>
-                      <span className={`inline-flex items-center mt-2 text-sm font-semibold ${p.ctaColor} group-hover:underline`}>{p.cta} <ChevronRight className="w-4 h-4 ml-0.5" /></span>
+                      <span className={`inline-flex items-center mt-2 text-sm font-semibold ${p.ctaColor}`}>{p.cta}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right: Gemini Academy 단계 카드 */}
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 lg:p-10 lg:sticky lg:top-24">
               <div className="flex items-center gap-3 mb-8">
-                <div className="w-11 h-11 rounded-xl bg-g-blue/10 text-g-blue flex items-center justify-center">
-                  <Award className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="font-bold text-navy">Gemini Academy</p>
-                  <p className="text-xs text-gray-400">Google 공인 인증 과정</p>
-                </div>
+                <div className="w-11 h-11 rounded-xl bg-g-blue/10 text-g-blue flex items-center justify-center"><Award className="w-5 h-5" /></div>
+                <div><p className="font-bold text-navy">Gemini Academy</p><p className="text-xs text-gray-400">Google 공인 인증 과정</p></div>
               </div>
               <div className="space-y-3">
                 {['AI 기초 활용', '프롬프트 엔지니어링', 'Workspace AI 통합', '전공별 Gemini 심화'].map((step, i) => (
@@ -585,9 +890,7 @@ export default function App() {
                   </div>
                 ))}
               </div>
-              <div className="mt-8 pt-6 border-t border-gray-100 flex items-center gap-2 text-sm font-semibold text-g-blue cursor-pointer hover:underline">
-                과정 상세 보기 <ChevronRight className="w-4 h-4" />
-              </div>
+              <div className="mt-8 pt-6 border-t border-gray-100 text-sm font-semibold text-gray-400">추후 업데이트 예정</div>
             </div>
           </div>
         </div>
@@ -595,30 +898,27 @@ export default function App() {
 
 
       {/* ================================================================
-          7. 연구 프로그램  —  다크 배경 + AI STAR + 스크롤 리스트
+          7. 연구 프로그램
       ================================================================ */}
       <section id="research" className="py-20 lg:py-28 bg-navy">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <p className="text-sm font-bold text-g-green tracking-widest uppercase mb-3">Research</p>
             <h2 className="text-3xl sm:text-4xl font-bold text-white">연구 프로그램</h2>
-            <p className="mt-3 text-white/35">AI 교육혁신의 첫 단추는 수업의 변화로부터 시작됩니다. 수업 혁신을 위한 깊이 있는 연구와 실증을 Google과 함께 합니다.</p>
+            <p className="mt-3 text-white/35">AI 교육혁신의 첫 단추는 수업의 변화로부터 시작됩니다.</p>
           </div>
 
           <div className="grid lg:grid-cols-5 gap-10 items-start">
-            {/* AI STAR sidebar */}
             <div className="lg:col-span-2 bg-white/5 backdrop-blur-sm p-8 sm:p-10 rounded-2xl border border-white/10 lg:sticky lg:top-24">
               <div className="flex items-center gap-2 mb-5">
                 <Sparkles className="w-5 h-5 text-g-green" />
                 <span className="text-xs font-bold tracking-widest text-g-green uppercase">AI STAR Project</span>
               </div>
               <h3 className="text-3xl font-bold text-white mb-5">AI STAR<br/>프로젝트</h3>
-              <p className="text-white/40 leading-relaxed text-sm mb-6">
-                AI STAR는 부산대학교 에듀테크센터와 구글이 공동으로 추진하는 현장 맞춤형 AI 교육과정 실증 모델 연구 사업입니다. 교실 현장의 실제적인 수업 질적 개선을 도출합니다.
-              </p>
+              <p className="text-white/40 leading-relaxed text-sm mb-6">AI STAR는 부산대학교 에듀테크센터와 구글이 공동으로 추진하는 현장 맞춤형 AI 교육과정 실증 모델 연구 사업입니다.</p>
               <div className="border-t border-white/10 pt-5 space-y-2.5 text-sm text-white/30">
                 <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-g-blue"></span> 기간: 2026학년도 연중 진행</div>
-                <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-g-red"></span> 협력: Google Korea 교육본부</div>
+                <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-g-red"></span> 협력: Google Cloud</div>
               </div>
               <div className="grid grid-cols-3 gap-3 mt-8 pt-6 border-t border-white/10">
                 {[{ v: '15', l: '선정 과제' }, { v: '50+', l: '참여 연구자' }, { v: '8', l: '연구 분야' }].map((m) => (
@@ -630,17 +930,19 @@ export default function App() {
               </div>
             </div>
 
-            {/* 15개 연구 과제 스크롤 리스트 */}
             <div className="lg:col-span-3">
               <h4 className="text-sm font-bold text-white/60 mb-4 flex items-center gap-2">
                 <span className="w-1 h-4 bg-g-green rounded-full"></span>
                 2026학년도 연구 과제 공모 선정 리스트 (15개 과제)
               </h4>
-              <div className="bg-white/5 border border-white/10 rounded-2xl divide-y divide-white/5 max-h-[500px] overflow-y-auto custom-scrollbar">
+              <div className="bg-white/5 border border-white/10 rounded-2xl divide-y divide-white/5 max-h-[600px] overflow-y-auto custom-scrollbar">
                 {RESEARCH_LIST.map((item, i) => (
                   <div key={i} className="px-5 py-4 hover:bg-white/5 transition-colors flex items-start gap-3 group">
                     <span className="font-mono text-xs font-bold text-g-green mt-0.5 shrink-0 w-5 text-right">{(i + 1).toString().padStart(2, '0')}</span>
-                    <p className="text-white/60 text-sm leading-relaxed group-hover:text-white/80 transition-colors">{item}</p>
+                    <div>
+                      <span className="text-[10px] font-bold text-white/25 uppercase">{item.dept}</span>
+                      <p className="text-white/60 text-sm leading-relaxed group-hover:text-white/80 transition-colors">{item.title}</p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -651,7 +953,7 @@ export default function App() {
 
 
       {/* ================================================================
-          8. 참여 프로그램  —  상시 + 완료 + 예정 구분
+          8. 참여 프로그램
       ================================================================ */}
       <section id="participation" className="py-20 lg:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -661,7 +963,7 @@ export default function App() {
             <p className="mt-3 text-gray-500">구글과 함께 생생한 현장을 직접 경험하며 AI 실무의 진짜 답을 찾아갑니다.</p>
           </div>
 
-          {/* ── 상시 운영 프로그램 ── */}
+          {/* 상시 운영 */}
           <div className="mb-10">
             <div className="flex items-center gap-2 mb-5">
               <div className="w-2 h-2 rounded-full bg-g-blue animate-pulse"></div>
@@ -670,55 +972,45 @@ export default function App() {
             <div className="grid lg:grid-cols-2 gap-6">
               <div className="bg-navy-50 rounded-2xl p-7 border border-gray-200">
                 <h3 className="text-lg font-bold text-navy mb-2">Google 기술 & 전문가 세션</h3>
-                <p className="text-sm text-gray-500 leading-relaxed mb-4">구글러와의 만남, 글로벌 테크 멘토링, GTO 세션 등 다채롭고 글로벌한 구글 엔지니어 실무 전문가 파트너 기술을 만나는 기회를 매달 제공합니다.</p>
+                <p className="text-sm text-gray-500 leading-relaxed mb-4">구글러와의 만남, 글로벌 테크 멘토링, GTO 세션 등 구글 엔지니어 실무 전문가 기술을 만나는 기회를 매달 제공합니다.</p>
                 <span className="inline-flex items-center px-3 py-1 rounded-full bg-g-blue/10 text-g-blue text-xs font-semibold">매월 정기 운영</span>
               </div>
               <div className="bg-navy-50 rounded-2xl p-7 border border-gray-200">
                 <h3 className="text-lg font-bold text-navy mb-2">실전형 산학 협력 프로젝트</h3>
-                <p className="text-sm text-gray-500 leading-relaxed mb-4">구글의 고도화된 AI 프레임워크 기술을 활용하여 지역 사회 문제, 실제 비즈니스 프로세스 문제를 창의적으로 해결해보는 실무형 프로젝트 기회를 경험합니다.</p>
+                <p className="text-sm text-gray-500 leading-relaxed mb-4">구글의 AI 프레임워크 기술을 활용하여 지역 사회 문제, 실제 비즈니스 문제를 창의적으로 해결해보는 실무형 프로젝트.</p>
                 <span className="inline-flex items-center px-3 py-1 rounded-full bg-g-blue/10 text-g-blue text-xs font-semibold">학기별 상시 운영</span>
               </div>
             </div>
           </div>
 
-          {/* ── 모집 중 (NOW OPEN) ── */}
+          {/* 진행중 NOW OPEN */}
           <div className="mb-10">
             <div className="flex items-center gap-2 mb-5">
               <div className="relative w-2 h-2">
                 <div className="absolute inset-0 rounded-full bg-g-red animate-ping opacity-75"></div>
                 <div className="relative w-2 h-2 rounded-full bg-g-red"></div>
               </div>
-              <span className="text-xs font-bold text-g-red tracking-widest uppercase">모집 중 · Now Open</span>
+              <span className="text-xs font-bold text-g-red tracking-widest uppercase">진행중 · Now Open</span>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[
-                { title: 'Google AI Pro 계정 발급', desc: '부산대 전체 학생·대학원생 대상 Google AI Pro for Education 무료 계정을 지금 바로 발급받으세요.', who: '학생 · 대학원생', deadline: '상시 발급', cta: '계정 등록하기', color: 'border-t-[#4285F4]' },
-                { title: 'Gemini Academy 수강 신청', desc: '부산대 맞춤형 Gemini Academy 과정 수강 신청이 진행 중입니다. Google 공인 국제 자격증 연계.', who: '학생 · 교원', deadline: '선착순 마감', cta: '수강 신청하기', color: 'border-t-[#34A853]' },
-                { title: 'AI Literacy MOOC 수강', desc: '부산대 교수진과 구글러가 공동 제작한 AI 기초 소양 MOOC를 수강하고 이수증을 받으세요.', who: '전교생 대상', deadline: '상시 수강', cta: '강좌 바로가기', color: 'border-t-[#FBBC04]' },
-                { title: 'AI STAR 프로젝트 참여 연구원 모집', desc: '15개 선정 과제에 참여할 학부·대학원 연구원을 모집합니다. 연구비 지원.', who: '학부생 · 대학원생', deadline: '과제별 상이', cta: '모집 공고 보기', color: 'border-t-[#EA4335]' },
-                { title: 'AI 챔피언 그룹 1기 모집', desc: '학생 중심 AI 학습혁신 커뮤니티 1기 멤버를 모집합니다. 구글 전문가 직접 멘토링.', who: '학생 누구나', deadline: '모집 중', cta: '지원하기', color: 'border-t-[#4285F4]' },
-                { title: 'NotebookLM 연구 활용 워크숍', desc: '논문·실험 데이터를 NotebookLM에 업로드하고 AI 기반 연구 워크플로를 직접 체험해보세요.', who: '학생 · 교원', deadline: '월별 개최', cta: '참가 신청', color: 'border-t-[#34A853]' },
-              ].map((item) => (
-                <div key={item.title} className={`bg-white rounded-xl border border-gray-200 border-t-[3px] ${item.color} p-6 flex flex-col justify-between hover:shadow-md transition-shadow group`}>
-                  <div>
-                    <h4 className="font-bold text-navy text-sm mb-2">{item.title}</h4>
-                    <p className="text-xs text-gray-500 leading-relaxed mb-3">{item.desc}</p>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      <span className="px-2 py-0.5 rounded-full bg-navy-50 text-navy text-[10px] font-semibold">{item.who}</span>
-                      <span className="px-2 py-0.5 rounded-full bg-g-red/10 text-g-red text-[10px] font-bold">{item.deadline}</span>
-                    </div>
-                  </div>
-                  <a href="#" className="inline-flex items-center text-sm font-semibold text-g-blue group-hover:underline">
-                    {item.cta} <ArrowUpRight className="w-3.5 h-3.5 ml-1" />
-                  </a>
+            <div className="max-w-lg">
+              <div className="bg-white rounded-xl border-2 border-g-red/20 p-6 hover:shadow-md transition-shadow group">
+                <h4 className="font-bold text-navy text-sm mb-2">Google 교육용 AI Ecosystem 계정 발급</h4>
+                <p className="text-xs text-gray-500 leading-relaxed mb-3">부산대 전체 학생·교원 대상 Google AI Pro for Education, Workspace for Education Plus 무료 계정을 지금 바로 발급받으세요.</p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="px-2 py-0.5 rounded-full bg-navy-50 text-navy text-[10px] font-semibold">학생 · 교원 전원</span>
+                  <span className="px-2 py-0.5 rounded-full bg-g-red/10 text-g-red text-[10px] font-bold">상시 발급</span>
                 </div>
-              ))}
+                <div className="flex gap-2">
+                  <button onClick={() => openRegister('student')} className="inline-flex items-center text-xs font-semibold text-g-blue hover:underline">학생 등록 <ArrowUpRight className="w-3 h-3 ml-0.5" /></button>
+                  <span className="text-gray-300">|</span>
+                  <button onClick={() => openRegister('faculty')} className="inline-flex items-center text-xs font-semibold text-g-green hover:underline">교원 등록 <ArrowUpRight className="w-3 h-3 ml-0.5" /></button>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* ── 완료된 행사 + 예정 행사 ── */}
+          {/* 완료된 행사 + 예정 행사 */}
           <div className="grid lg:grid-cols-2 gap-10">
-            {/* 완료된 행사 */}
             <div>
               <div className="flex items-center gap-2 mb-5">
                 <div className="w-2 h-2 rounded-full bg-g-green"></div>
@@ -729,12 +1021,10 @@ export default function App() {
                   { date: '2026.05.13', title: 'AI 교육혁신 파트너십 세레모니', desc: 'Kevin Kells 글로벌 디렉터 · 최재원 총장 참석, 공식 파트너십 체결', tag: 'Partnership' },
                   { date: '2026.05', title: 'Gemini Connect Seoul', desc: '에듀테크센터장 공식 스피커 참여, 파트너십 사례 전 세계 소개', tag: 'Global' },
                   { date: '2026.05', title: 'Google Tech Orientation (GTO)', desc: '구글 엔지니어 실무 세션, 학생 대상 기술 오리엔테이션 진행', tag: 'Session' },
-                  { date: '2026.06', title: 'Cloud-to-AI Workspace 전면 도입', desc: '28,000 라이선스 전교생·교원 대상 서비스 개시', tag: 'Launch' },
+                  { date: '2026.06', title: '교육용 AI Ecosystem 전면 도입', desc: '28,000 라이선스 전교생·교원 대상 서비스 개시', tag: 'Launch' },
                 ].map((event) => (
                   <div key={event.title} className="flex gap-4 bg-white rounded-xl p-5 border border-gray-200 group hover:border-g-green/30 transition-colors">
-                    <div className="shrink-0 text-center pt-0.5">
-                      <p className="text-xs font-mono font-bold text-g-green">{event.date}</p>
-                    </div>
+                    <div className="shrink-0 pt-0.5"><p className="text-xs font-mono font-bold text-g-green">{event.date}</p></div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <h4 className="font-bold text-navy text-sm">{event.title}</h4>
@@ -747,7 +1037,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* 예정된 행사 */}
             <div>
               <div className="flex items-center gap-2 mb-5">
                 <div className="w-2 h-2 rounded-full bg-g-yellow"></div>
@@ -755,21 +1044,18 @@ export default function App() {
               </div>
               <div className="space-y-3">
                 {[
-                  { date: '2026 하반기', title: 'VIBETHON 부산대 전용 바이브톤', desc: '전공 무관! No-Code/Low-Code 생태계에서 아이디어와 분위기(Vibe)로 펼치는 바이브코딩 축제', tag: 'Hackathon', featured: true },
-                  { date: '2026 하반기', title: '캠퍼스 아웃리치 프로그램', desc: '구글 임직원 캠퍼스 방문, 실전 경험 공유 및 학생 멘토링', tag: 'Outreach' },
-                  { date: '2026 하반기', title: 'AI 챔피언 그룹 발대식', desc: '학생 중심 AI 기반 학습혁신 가속화 커뮤니티 공식 출범', tag: 'Community' },
+                  { date: '2026', title: '부산대 맞춤형 Gemini Academy', desc: 'Google 공인 국제 자격증 연계 부산대 맞춤형 인증 과정 개설', tag: 'Education' },
+                  { date: '2026', title: 'Travel Busan with Google Gemini', desc: '구글 Gemini 기반 부산 지역 문제 해결 산학 프로젝트', tag: 'Project' },
                   { date: '2026', title: 'Higher Ed Leader Series APAC', desc: 'APAC 고등교육 리더 시리즈 포럼 패널 토론자 초청', tag: 'Global' },
-                  { date: '2026', title: 'TRAVEL BUSAN WITH GOOGLE GEMINI', desc: '구글 Gemini 기반 부산 지역 문제 해결 산학 프로젝트', tag: 'Project' },
+                  { date: '2026', title: 'AI Literacy MOOC', desc: '부산대 교수진 + 구글러 공동 기획 전교생 AI 기초 소양 MOOC 개강', tag: 'MOOC' },
+                  { date: '2026', title: '단과대학 맞춤형 AI+X 활용 교육 프로그램', desc: '전공별 도메인 지식과 AI 활용 기술을 융합한 단과대 맞춤 교육', tag: 'AI+X' },
                 ].map((event) => (
-                  <div key={event.title} className={`flex gap-4 rounded-xl p-5 border group transition-colors ${event.featured ? 'bg-amber-50/50 border-amber-200/60 hover:border-amber-300' : 'bg-white border-gray-200 hover:border-g-yellow/30'}`}>
-                    <div className="shrink-0 text-center pt-0.5">
-                      <p className="text-xs font-mono font-bold text-amber-600">{event.date}</p>
-                    </div>
+                  <div key={event.title} className="flex gap-4 bg-white rounded-xl p-5 border border-gray-200 group hover:border-g-yellow/30 transition-colors">
+                    <div className="shrink-0 pt-0.5"><p className="text-xs font-mono font-bold text-amber-600">{event.date}</p></div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <h4 className="font-bold text-navy text-sm">{event.title}</h4>
                         <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold shrink-0">{event.tag}</span>
-                        {event.featured && <span className="px-2 py-0.5 rounded-full bg-g-red/10 text-g-red text-[10px] font-bold shrink-0">Featured</span>}
                       </div>
                       <p className="text-xs text-gray-500 leading-relaxed">{event.desc}</p>
                     </div>
@@ -783,7 +1069,7 @@ export default function App() {
 
 
       {/* ================================================================
-          9. 글로벌 네트워크  —  지도형 + 마일스톤
+          9. 글로벌 네트워크
       ================================================================ */}
       <section id="network" className="py-20 lg:py-28 bg-navy-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -800,11 +1086,10 @@ export default function App() {
               <div className="lg:col-span-3 flex flex-col items-center justify-center gap-6">
                 <div className="flex items-center justify-center gap-3 flex-wrap">
                   {[
-                    { city: 'Busan', flag: '\u{1F1F0}\u{1F1F7}', active: true },
                     { city: 'Seoul', flag: '\u{1F1F0}\u{1F1F7}', active: true },
-                    { city: 'Singapore', flag: '\u{1F1F8}\u{1F1EC}' },
-                    { city: 'Tokyo', flag: '\u{1F1EF}\u{1F1F5}' },
-                    { city: 'California', flag: '\u{1F1FA}\u{1F1F8}' },
+                    { city: 'Singapore', flag: '\u{1F1F8}\u{1F1EC}', active: true },
+                    { city: 'Busan', flag: '\u{1F1F0}\u{1F1F7}', active: true },
+                    { city: 'and more', flag: '\u{1F30F}' },
                   ].map((loc) => (
                     <div key={loc.city} className={`flex items-center gap-2 px-4 py-3 rounded-xl border ${loc.active ? 'bg-navy text-white border-navy' : 'bg-white text-navy border-gray-200'}`}>
                       <span className="text-lg">{loc.flag}</span>
@@ -813,7 +1098,7 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-                <p className="text-xs text-gray-400 tracking-widest uppercase font-mono">PNU Global AI Education Hub</p>
+                <p className="text-xs text-gray-400 tracking-widest uppercase font-mono">PNU AI EDTECH Global Hub</p>
               </div>
 
               <div className="lg:col-span-2 space-y-4">
@@ -821,9 +1106,10 @@ export default function App() {
                   { label: 'Gemini Connect Seoul', desc: '에듀테크센터장 공식 스피커 참여, 파트너십 사례 전 세계 소개', tag: 'GLOBAL', color: 'border-l-g-blue' },
                   { label: 'Google Korea & PNU', desc: 'Kevin Kells 글로벌 디렉터 참석, 교육혁신본부장 VIP 포럼', tag: 'PARTNER', color: 'border-l-g-red' },
                   { label: 'Higher Ed Leader Series APAC', desc: 'APAC 고등교육 리더 시리즈 포럼 패널 토론자 초청', tag: 'APAC', color: 'border-l-g-yellow' },
+                  { label: 'PNU AI EDTECH SUMMIT', desc: '부산대 주최 AI 에듀테크 서밋, 글로벌 교육혁신 사례 공유', tag: '2026.11 BUSAN', color: 'border-l-g-green' },
                 ].map((ms) => (
                   <div key={ms.label} className={`bg-gray-50 rounded-xl p-5 border border-gray-200 border-l-[3px] ${ms.color}`}>
-                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider font-mono">{ms.tag} 2026</span>
+                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider font-mono">{ms.tag}</span>
                     <h4 className="font-bold text-navy text-sm mt-1">{ms.label}</h4>
                     <p className="text-xs text-gray-500 mt-1">{ms.desc}</p>
                   </div>
@@ -838,7 +1124,7 @@ export default function App() {
 
 
       {/* ================================================================
-          10. CTA  —  참여 신청
+          10. CTA
       ================================================================ */}
       <section className="py-20 lg:py-24 bg-navy relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-g-blue/[0.06] rounded-full blur-[100px]"></div>
@@ -846,16 +1132,18 @@ export default function App() {
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">부산대학교 AI 혁신 생태계에<br/>참여하세요</h2>
           <p className="text-white/35 mb-10 text-lg">AI 거점대학의 교육·연구·협력 프로그램에 지금 바로 참여할 수 있습니다.</p>
           <div className="grid sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
-            {[
-              { label: '학생 참여', desc: 'AI Pro 계정 발급·교육과정', href: '#register-student' },
-              { label: '교원 참여', desc: 'AI STAR·Gemini Enterprise', href: '#register-faculty' },
-              { label: '문의하기', desc: 'pnucde@pusan.ac.kr', href: 'mailto:pnucde@pusan.ac.kr' },
-            ].map((cta) => (
-              <a key={cta.label} href={cta.href} className="bg-white/10 hover:bg-white/15 border border-white/10 rounded-xl p-5 transition-all text-center group">
-                <p className="text-white font-bold">{cta.label}</p>
-                <p className="text-white/35 text-xs mt-1 group-hover:text-white/50 transition-colors">{cta.desc}</p>
-              </a>
-            ))}
+            <button onClick={() => openRegister('student')} className="bg-white/10 hover:bg-white/15 border border-white/10 rounded-xl p-5 transition-all text-center group">
+              <p className="text-white font-bold">학생 참여</p>
+              <p className="text-white/35 text-xs mt-1 group-hover:text-white/50 transition-colors">AI Pro 계정 발급·교육과정</p>
+            </button>
+            <button onClick={() => openRegister('faculty')} className="bg-white/10 hover:bg-white/15 border border-white/10 rounded-xl p-5 transition-all text-center group">
+              <p className="text-white font-bold">교원 참여</p>
+              <p className="text-white/35 text-xs mt-1 group-hover:text-white/50 transition-colors">AI STAR·Gemini Enterprise</p>
+            </button>
+            <a href="mailto:pnucde@pusan.ac.kr" className="bg-white/10 hover:bg-white/15 border border-white/10 rounded-xl p-5 transition-all text-center group">
+              <p className="text-white font-bold">문의하기</p>
+              <p className="text-white/35 text-xs mt-1 group-hover:text-white/50 transition-colors">pnucde@pusan.ac.kr</p>
+            </a>
           </div>
         </div>
       </section>
